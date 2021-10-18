@@ -6,10 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,12 +24,15 @@ public class Comentario implements Serializable {
     private Integer codigo;
     @Getter
     @Setter
+    @Column(length = 50, nullable = false)
     private String mensaje;
     @Getter
     @Setter
+    @Column(length = 50, nullable = false)
     private String respuesta;
     @Getter
     @Setter
+    @Column(nullable = false)
     private LocalDateTime fechaComentario;
     @Getter
     @Setter

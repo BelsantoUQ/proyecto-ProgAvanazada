@@ -22,6 +22,7 @@ public class Usuario extends Persona implements Serializable {
     private Integer codigo;
     
     @ElementCollection
+    @Column(nullable = false)
     private Map<String, String> num_telefono;
 
 

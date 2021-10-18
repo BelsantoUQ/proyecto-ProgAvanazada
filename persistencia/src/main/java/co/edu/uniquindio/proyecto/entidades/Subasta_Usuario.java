@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,7 +20,9 @@ public class Subasta_Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer codigo;
+    @Column(nullable = false)
     private float valor;
+    @Column(nullable = false)
     private LocalDateTime fechaSubasta;
 
     public Subasta_Usuario(float valor, LocalDateTime fechaSubasta) {
