@@ -1,20 +1,25 @@
 package co.edu.uniquindio.proyecto.entidades;
 
-public enum Categoria {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    ELECTRODOMESTICOS,
-    TECNOLOGIA,
-    OFICINA,
-    HOGAR,
-    MUEBLES,
-    VIDEOJUEGOS,
-    JUGUETES,
-    ROPA,
-    ACCESORIOS,
-    JOYERIA,
-    DEPORTE,
-    CAMPING,
-    CONSTRUCCION,
-    VEHICULOS,
-    PINES
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+public class Categoria implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Integer codigo;
+    @Column(nullable = false, length = 60)
+    private String nombre;
+
 }
