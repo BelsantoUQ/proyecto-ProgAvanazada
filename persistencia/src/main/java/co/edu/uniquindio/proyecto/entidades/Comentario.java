@@ -8,10 +8,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 public class Comentario implements Serializable {
@@ -19,27 +20,29 @@ public class Comentario implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     @EqualsAndHashCode.Include
     private Integer codigo;
-    @Getter
-    @Setter
+
     @Column(length = 50, nullable = false)
     private String mensaje;
-    @Getter
-    @Setter
+
     @Column(length = 50, nullable = false)
     private String respuesta;
-    @Getter
-    @Setter
-    @Column(nullable = false)
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaComentario;
-    @Getter
-    @Setter
+
+    @Column(precision = 4)
     private float calificacion;
 
-    public Comentario(String mensaje, LocalDateTime fechaComentario) {
-        this.mensaje = mensaje;
-        this.fechaComentario = fechaComentario;
+    @ManyToOne
+    private Usuario userComent;
+
+    @ManyToOne
+    private Producto comentarioProducto;
+
+
+    public Comentario(String mensaje ) {
+        this.mensaje = mensaje;this.fechaComentario = fechaComentario;
     }
 }

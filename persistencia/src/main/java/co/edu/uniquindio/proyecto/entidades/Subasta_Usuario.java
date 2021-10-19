@@ -20,13 +20,20 @@ public class Subasta_Usuario implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer codigo;
+
     @Column(nullable = false)
     private float valor;
-    @Column(nullable = false)
+
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaSubasta;
 
-    public Subasta_Usuario(float valor, LocalDateTime fechaSubasta) {
+    @ManyToOne
+    private Usuario usuarioSubasta;
+
+    @ManyToOne
+    private Subasta subastaUser;
+
+    public Subasta_Usuario(float valor) {
         this.valor = valor;
-        this.fechaSubasta = fechaSubasta;
     }
 }

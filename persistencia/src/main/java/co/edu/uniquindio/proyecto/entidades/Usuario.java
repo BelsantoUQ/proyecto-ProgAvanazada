@@ -7,23 +7,41 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 public class Usuario extends Persona implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @EqualsAndHashCode.Include
-    private Integer codigo;
     
     @ElementCollection
     @Column(nullable = false)
-    private Map<String, String> num_telefono;
+    private List<String> num_telefono;
 
+    //@JoinColumn(nullable = false)
+    @ManyToOne
+    private Ciudad ciudadUsuario;
+
+    @ManyToMany
+    //@JoinColumn(nullable = false)
+    private List<Producto> productosFavoritos;
+
+    @OneToMany(mappedBy = "userComent")
+    private List<Comentario> comentariosDelUser;
+
+    @OneToMany(mappedBy = "usuarioSubasta")
+    private List<Subasta_Usuario> subastasDeUsuario;
+
+    @OneToMany(mappedBy = "compraDeUser")
+    private List<Compra> comprasUsuario;
+
+    @OneToMany(mappedBy = "clienteUser")
+    private List<Producto> productosUsuario;
+
+    @OneToMany(mappedBy = "chatUsuario")
+    private List<Chat> chatsDelUsuario;
 
 }

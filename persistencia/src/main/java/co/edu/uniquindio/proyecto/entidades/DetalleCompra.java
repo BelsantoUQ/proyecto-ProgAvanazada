@@ -19,11 +19,18 @@ public class DetalleCompra implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer codigo;
+
     @Column(nullable = false)
     private Integer unidades;
+
     @Column(nullable = false)
     private float precioProducto;
 
+    @ManyToOne
+    private Producto productoCompra;
+
+    @ManyToOne
+    private Compra compra;
 
 
 }

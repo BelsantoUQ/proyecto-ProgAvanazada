@@ -1,13 +1,11 @@
 package co.edu.uniquindio.proyecto.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,6 +18,17 @@ public class Subasta implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer codigo;
+
     @Column(nullable = false)
     private LocalDateTime fechaLimite;
+
+    @ManyToOne
+    private Producto productoEnSubasta;
+
+    @OneToMany(mappedBy = "subastaUser")
+    private List<Subasta_Usuario> subastasUsuarios;
+
+    public Subasta(LocalDateTime fechaLimite) {
+        this.fechaLimite = fechaLimite;
+    }
 }

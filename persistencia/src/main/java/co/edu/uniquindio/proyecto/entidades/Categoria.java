@@ -1,12 +1,10 @@
 package co.edu.uniquindio.proyecto.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,7 +17,15 @@ public class Categoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Integer codigo;
+
     @Column(nullable = false, length = 60)
     private String nombre;
 
+  //  @JoinColumn(nullable = false)
+    @ManyToMany
+    private List<Producto> productos;
+
+    public Categoria(String nombre) {
+        this.nombre = nombre;
+    }
 }
