@@ -26,7 +26,7 @@ public class Subasta implements Serializable {
     @ManyToOne
     private Producto productoEnSubasta;
 
-    @OneToMany(mappedBy = "subastaUser")
+    @OneToMany(mappedBy = "subasta")
     @ToString.Exclude
     private List<Subasta_Usuario> subastasUsuarios;
 

@@ -26,6 +26,7 @@ public class UsuarioTest {
     private CiudadRepo ciudadRepo;
 
     @Test
+    @Sql("classpath:ciudades.sql")
     @Sql("classpath:usuarios.sql")
     public void registrarTest(){
 
@@ -43,6 +44,7 @@ public class UsuarioTest {
     }
 
     @Test
+    @Sql("classpath:ciudades.sql")
     @Sql("classpath:usuarios.sql")
     public void eliminarTest(){
 
@@ -54,6 +56,7 @@ public class UsuarioTest {
     }
 
     @Test
+    @Sql("classpath:ciudades.sql")
     @Sql("classpath:usuarios.sql")
     public void actualizarTest(){
 
@@ -71,6 +74,7 @@ public class UsuarioTest {
     }
 
     @Test
+    @Sql("classpath:ciudades.sql")
     @Sql("classpath:usuarios.sql")
     public void listarTest(){
 
@@ -81,6 +85,7 @@ public class UsuarioTest {
     }
 
     @Test
+    @Sql("classpath:ciudades.sql")
     @Sql("classpath:usuarios.sql")
     public void filtrarNombreTest(){
         List<Usuario> listaUsuarios = usuarioRepo.findAllByNombreContains("Sergio");
