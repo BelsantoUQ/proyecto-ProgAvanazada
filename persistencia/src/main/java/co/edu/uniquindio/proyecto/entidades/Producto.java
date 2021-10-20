@@ -13,6 +13,7 @@ import java.util.Map;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Producto implements Serializable {
 
     @Id
@@ -56,12 +57,15 @@ public class Producto implements Serializable {
     private Ciudad ciudadProducto;
 
     @OneToMany(mappedBy = "productoCompra")
+    @ToString.Exclude
     private List<DetalleCompra> detallesDeCompras;
 
     @OneToMany(mappedBy = "comentarioProducto")
+    @ToString.Exclude
     private List<Comentario> comentarios;
 
     @OneToMany(mappedBy = "productoEnSubasta")
+    @ToString.Exclude
     private  List<Subasta> subastas;
 
     public Producto(String codigo,

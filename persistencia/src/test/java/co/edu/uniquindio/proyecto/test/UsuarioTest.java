@@ -79,4 +79,11 @@ public class UsuarioTest {
         usuarios.forEach(u -> System.out.println(u));
     }
 
+    @Test
+    @Sql("classpath:usuarios.sql")
+    public void filtrarNombreTest(){
+        List<Usuario> listaUsuarios = usuarioRepo.findAllByNombreContains("Sergio");
+        listaUsuarios.forEach(System.out::println);
+    }
+
 }

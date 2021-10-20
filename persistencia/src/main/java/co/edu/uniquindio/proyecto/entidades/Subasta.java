@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Subasta implements Serializable {
 
     @Id
@@ -26,6 +27,7 @@ public class Subasta implements Serializable {
     private Producto productoEnSubasta;
 
     @OneToMany(mappedBy = "subastaUser")
+    @ToString.Exclude
     private List<Subasta_Usuario> subastasUsuarios;
 
     public Subasta(LocalDateTime fechaLimite) {

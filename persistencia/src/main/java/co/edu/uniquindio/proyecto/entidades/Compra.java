@@ -1,9 +1,6 @@
 package co.edu.uniquindio.proyecto.entidades;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +12,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class Compra implements Serializable {
 
     @Id
@@ -32,6 +30,7 @@ public class Compra implements Serializable {
     private Usuario compraDeUser;
 
     @OneToMany(mappedBy = "compra")
+    @ToString.Exclude
     private List<DetalleCompra> comprasDetalladas;
 
     public Compra(String medioPago) {
