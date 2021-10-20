@@ -22,6 +22,9 @@ public class Chat implements Serializable {
     @ManyToOne
     private Usuario chatUsuario;
 
+    @ManyToOne
+    private  Producto chatProducto;
+
     @OneToMany(mappedBy = "chatPrincipal")
     @ToString.Exclude
     private List<Mensaje> mensajesDelChat;
