@@ -30,7 +30,8 @@ public class Subasta implements Serializable {
     @ToString.Exclude
     private List<Subasta_Usuario> subastasUsuarios;
 
-    public Subasta(LocalDateTime fechaLimite) {
+    public Subasta(LocalDateTime fechaLimite, Producto productoEnSubasta) {
         this.fechaLimite = fechaLimite;
+        this.productoEnSubasta = productoEnSubasta;
     }
 }

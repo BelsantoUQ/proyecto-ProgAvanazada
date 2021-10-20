@@ -33,8 +33,8 @@ public class Compra implements Serializable {
     @ToString.Exclude
     private List<DetalleCompra> comprasDetalladas;
 
-    public Compra(String medioPago) {
-
+    public Compra(String medioPago, Usuario compraDeUser) {
         this.medioPago = medioPago;
+        this.compraDeUser = compraDeUser;
     }
 }

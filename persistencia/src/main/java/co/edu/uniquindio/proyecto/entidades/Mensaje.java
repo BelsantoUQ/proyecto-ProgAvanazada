@@ -30,10 +30,9 @@ public class Mensaje implements Serializable {
     @ManyToOne
     private Chat chatPrincipal;
 
-    public Mensaje(String mensaje,
-                   String emisor
-                   ) {
+    public Mensaje(String mensaje, String emisor, Chat chatPrincipal) {
         this.mensaje = mensaje;
         this.emisor = emisor;
+        this.chatPrincipal = chatPrincipal;
     }
 }

@@ -27,15 +27,14 @@ public class UsuarioTest {
 
     @Test
     @Sql("classpath:ciudades.sql")
-    @Sql("classpath:usuarios.sql")
     public void registrarTest(){
 
         Ciudad ciudad = ciudadRepo.findById(1001).orElse(null);
 
         Map<String, String> telefonos = new HashMap<>();
-        telefonos.put("personal","3165411222");
-        telefonos.put("la novia","3175412687");
-        Usuario usuario = new Usuario("Sergio Esteban","sergiesito@gmail.com","12345",telefonos, ciudad);
+        telefonos.put("propio","3165411222");
+        telefonos.put("novia","3175419888");
+        Usuario usuario = new Usuario("Carlos Esteban","carlito@gmail.com","12345",telefonos, ciudad);
 
 
         Usuario usuarioGuardado1 = usuarioRepo.save(usuario);
@@ -62,7 +61,7 @@ public class UsuarioTest {
 
         Usuario guardado = usuarioRepo.findById(100).orElse(null);
 
-        //Modifico el email de usuario
+        //Modifico
         guardado.setEmail("sergiesote@gmail.com");
         //Guardo los cambios
         usuarioRepo.save(guardado);

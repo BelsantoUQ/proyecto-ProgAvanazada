@@ -21,26 +21,30 @@ public class Comentario implements Serializable {
     @EqualsAndHashCode.Include
     private Integer codigo;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 300, nullable = false)
     private String mensaje;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 300, nullable = false)
     private String respuesta;
 
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaComentario;
 
-    @Column(precision = 4)
-    private float calificacion;
+    @Column(nullable = false)
+    private int calificacion;
 
     @ManyToOne
     private Usuario userComent;
 
     @ManyToOne
-    private Producto comentarioProducto;
+    private Producto productoC;
 
-
-    public Comentario(String mensaje ) {
-        this.mensaje = mensaje;this.fechaComentario = fechaComentario;
+    public Comentario(String mensaje, String respuesta, int calificacion, Usuario userComent, Producto productoC) {
+        this.mensaje = mensaje;
+        this.respuesta = respuesta;
+        this.fechaComentario = LocalDateTime.now();
+        this.calificacion = calificacion;
+        this.userComent = userComent;
+        this.productoC = productoC;
     }
 }

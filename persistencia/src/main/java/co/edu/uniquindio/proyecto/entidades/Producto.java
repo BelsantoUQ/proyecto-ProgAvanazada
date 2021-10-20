@@ -30,13 +30,13 @@ public class Producto implements Serializable {
     private String descripcion;
 
     @Column(nullable = false)
-    private Float precio;
+    private double precio;
 
     @Column(nullable = false)
     private LocalDate fechaLimite;
 
     @Column(nullable = false)
-    private Float descuento;
+    private float descuento;
 
     @ElementCollection
     @Column(nullable = false, length = 500)
@@ -60,7 +60,7 @@ public class Producto implements Serializable {
     @ToString.Exclude
     private List<DetalleCompra> detallesDeCompras;
 
-    @OneToMany(mappedBy = "comentarioProducto")
+    @OneToMany(mappedBy = "productoC")
     @ToString.Exclude
     private List<Comentario> comentarios;
 
@@ -68,14 +68,19 @@ public class Producto implements Serializable {
     @ToString.Exclude
     private  List<Subasta> subastas;
 
-    public Producto(String codigo,
-                    String nombre,
-                    String descripcion,
-                    Float precio) {
+    public Producto(String codigo, String nombre, Integer unidades, String descripcion,
+                    double precio, LocalDate fechaLimite, float descuento, Map<String, String> imagenRuta,
+                    List<Categoria> categorias, Usuario clienteUser, Ciudad ciudadProducto) {
         this.codigo = codigo;
         this.nombre = nombre;
+        this.unidades = unidades;
         this.descripcion = descripcion;
         this.precio = precio;
+        this.fechaLimite = fechaLimite;
+        this.descuento = descuento;
+        this.imagenRuta = imagenRuta;
+        this.categorias = categorias;
+        this.clienteUser = clienteUser;
+        this.ciudadProducto = ciudadProducto;
     }
-
 }

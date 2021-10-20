@@ -22,7 +22,7 @@ public class DetalleCompra implements Serializable {
     private Integer unidades;
 
     @Column(nullable = false)
-    private float precioProducto;
+    private double precioProducto;
 
     @ManyToOne
     @ToString.Exclude
@@ -32,5 +32,10 @@ public class DetalleCompra implements Serializable {
     @ToString.Exclude
     private Compra compra;
 
-
+    public DetalleCompra(Integer unidades, double precioProducto, Producto productoCompra, Compra compra) {
+        this.unidades = unidades;
+        this.precioProducto = precioProducto;
+        this.productoCompra = productoCompra;
+        this.compra = compra;
+    }
 }
