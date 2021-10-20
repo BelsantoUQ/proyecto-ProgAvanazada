@@ -1,1 +1,1 @@
-INSERT INTO `usuario` (`codigo`, `email`, `nombre`, `password`) VALUES ('10', 'adminmail@gmail.com', 'Esteban Social', '123456'), ('11', 'admin2@gmail.com', 'Profesor Carlos', '321'), ('11', 'admin3@gmail.com', 'don Santiago Gallo', '123456');
+INSERT INTO `administrador` (`codigo`, `email`, `nombre`, `password`) VALUES ('10', 'adminmail@gmail.com', 'Esteban Social', '12345'), ('11', 'admin2@gmail.com', 'Profesor Carlos', '321'), ('12', 'admin3@gmail.com', 'don Santiago Gallo', '123456');
