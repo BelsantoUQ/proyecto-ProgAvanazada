@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -38,7 +39,7 @@ public class Producto implements Serializable {
 
     @ElementCollection
     @Column(nullable = false, length = 500)
-    private List<String> imagenRuta;
+    private Map<String, String> imagenRuta;
 
   //  @JoinColumn(nullable = false)
     @ManyToMany(mappedBy = "productos")
