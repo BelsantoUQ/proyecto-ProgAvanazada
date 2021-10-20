@@ -31,7 +31,9 @@ public class Subasta_Usuario implements Serializable {
     @ManyToOne
     private Subasta subasta;
 
-    public Subasta_Usuario(float valor) {
+    public Subasta_Usuario(float valor, Usuario usuarioSubasta, Subasta subasta) {
         this.valor = valor;
+        this.usuarioSubasta = usuarioSubasta;
+        this.subasta = subasta;
     }
 }

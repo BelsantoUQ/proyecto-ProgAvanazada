@@ -1,10 +1,8 @@
 package co.edu.uniquindio.proyecto.test;
 
 
-import co.edu.uniquindio.proyecto.entidades.Chat;
 import co.edu.uniquindio.proyecto.entidades.Producto;
 import co.edu.uniquindio.proyecto.entidades.Subasta;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.ProductoRepo;
 import co.edu.uniquindio.proyecto.repositorios.SubastaRepo;
 import org.junit.jupiter.api.Assertions;
@@ -37,7 +35,8 @@ public class SubastaTest {
 
         Producto producto = productoRepo.findById("1E").orElse(null);
 
-        Subasta subasta = new Subasta(LocalDateTime.of(2021,10,28, 2,00,00), producto);
+        Subasta subasta = new Subasta(LocalDateTime.of(2021,10,28, 2,00,00),
+                producto);
 
 
         Subasta guardado1 = subastaRepo.save(subasta);
@@ -78,7 +77,8 @@ public class SubastaTest {
 
         Subasta buscado = subastaRepo.findById(2).orElse(null);
 
-        Assertions.assertEquals(LocalDateTime.of(2021,10,28, 2,00,00), buscado.getFechaLimite());
+        Assertions.assertEquals(LocalDateTime.of(2021,10,28, 2,00,00),
+                buscado.getFechaLimite());
 
     }
 
