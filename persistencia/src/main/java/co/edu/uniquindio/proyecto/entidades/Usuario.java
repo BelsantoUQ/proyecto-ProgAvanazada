@@ -46,9 +46,9 @@ public class Usuario extends Persona implements Serializable {
     @ToString.Exclude
     private List<Compra> comprasUsuario;
 
-    @OneToMany(mappedBy = "clienteUser")
+    @OneToMany(mappedBy = "vendedor")
     @ToString.Exclude
-    private List<Producto> productosUsuario;
+    private List<Producto> productosVenta;
 
     @OneToMany(mappedBy = "chatUsuario")
     @ToString.Exclude

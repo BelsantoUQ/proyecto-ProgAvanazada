@@ -51,7 +51,7 @@ public class Producto implements Serializable {
     private List<Usuario> usuariosPotenciales;
 
     @ManyToOne
-    private Usuario clienteUser;
+    private Usuario vendedor;
 
     @ManyToOne
     private Ciudad ciudadProducto;
@@ -70,7 +70,7 @@ public class Producto implements Serializable {
 
     public Producto(String codigo, String nombre, Integer unidades, String descripcion,
                     double precio, LocalDate fechaLimite, float descuento, Map<String, String> imagenRuta,
-                    List<Categoria> categorias, Usuario clienteUser, Ciudad ciudadProducto) {
+                    List<Categoria> categorias, Usuario vendedor, Ciudad ciudadProducto) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.unidades = unidades;
@@ -80,7 +80,7 @@ public class Producto implements Serializable {
         this.descuento = descuento;
         this.imagenRuta = imagenRuta;
         this.categorias = categorias;
-        this.clienteUser = clienteUser;
+        this.vendedor = vendedor;
         this.ciudadProducto = ciudadProducto;
     }
 }
