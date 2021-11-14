@@ -60,7 +60,7 @@ public class ProductoTest {
         rutaFotos.put("lateral","rutaaleatoria2");
 
         Producto producto = new Producto("8TR","Microfono MAX3", 80,
-                "Tiene bloqueo de sonido y es compatible con mac", 260000, LocalDate.now(), 0, rutaFotos,categorias,usuario,ciudad);
+                "Tiene bloqueo de sonido y es compatible con mac", 0, 260000, LocalDate.now(), 0, rutaFotos,categorias,usuario,ciudad);
 
 
         Producto guardado1 = productoRepo.save(producto);

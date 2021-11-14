@@ -14,21 +14,28 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class Usuario extends Persona implements Serializable {
 
+
+    @Column(nullable = false, length = 100)
+    private int puntos;
     
     @ElementCollection
     @Column(nullable = false)
     private Map<String,String> num_telefono;
 
 
+    @ElementCollection
+    @Column(nullable = false, length = 500)
+    private Map<String, String> rutaFoto;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private Ciudad ciudadUsuario;
 
-    public Usuario(String nombre, String email, String password, Map<String, String> num_telefono, Ciudad ciudad) {
+    public Usuario(String nombre, String email, String password, Map<String, String> num_telefono, Ciudad ciudad, int puntos) {
         super(nombre, email, password);
         this.num_telefono = num_telefono;
         this.ciudadUsuario = ciudad;
+        this.puntos = puntos;
     }
 
     @ManyToMany

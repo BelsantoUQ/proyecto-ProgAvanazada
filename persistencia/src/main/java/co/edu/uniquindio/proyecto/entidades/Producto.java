@@ -29,6 +29,9 @@ public class Producto implements Serializable {
     @Column(nullable = false, length = 600)
     private String descripcion;
 
+    @Column(nullable = false, length = 100)
+    private int valor_en_puntos;
+
     @Column(nullable = false)
     private double precio;
 
@@ -68,7 +71,7 @@ public class Producto implements Serializable {
     @ToString.Exclude
     private  List<Subasta> subastas;
 
-    public Producto(String codigo, String nombre, Integer unidades, String descripcion,
+    public Producto(String codigo, String nombre, Integer unidades, String descripcion, int valor_en_puntos,
                     double precio, LocalDate fechaLimite, float descuento, Map<String, String> imagenRuta,
                     List<Categoria> categorias, Usuario vendedor, Ciudad ciudadProducto) {
         this.codigo = codigo;

@@ -9,11 +9,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -34,7 +39,7 @@ public class UsuarioTest {
         Map<String, String> telefonos = new HashMap<>();
         telefonos.put("propio","3165411222");
         telefonos.put("novia","3175419888");
-        Usuario usuario = new Usuario("Carlos Esteban","carlito@gmail.com","12345",telefonos, ciudad);
+        Usuario usuario = new Usuario("Carlos Esteban","carlito@gmail.com","12345",telefonos, ciudad, 0);
 
 
         Usuario usuarioGuardado1 = usuarioRepo.save(usuario);
@@ -91,4 +96,21 @@ public class UsuarioTest {
         listaUsuarios.forEach(System.out::println);
     }
 
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:usuarios.sql")
+    public void paginarListaTest() {
+        Pageable paginator = PageRequest.of(0, 2);
+        Page<Usuario> lista = usuarioRepo.findAll(paginator);
+        System.out.println(lista.stream().collect(Collectors.toList()));
+    }
+
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:usuarios.sql")
+    public void odenarListaTest() {
+
+        List<Usuario> lista = usuarioRepo.findAll(Sort.by("nombre"));
+        System.out.println(lista);
+    }
 }
