@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.test;
 
 
+import co.edu.uniquindio.proyecto.dto.ProductoValido;
 import co.edu.uniquindio.proyecto.entidades.*;
 import co.edu.uniquindio.proyecto.repositorios.*;
 import com.zaxxer.hikari.util.FastList;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +32,6 @@ public class ProductoTest {
     @Autowired
     private ChatRepo chatRepo;
 
-    @Autowired
-    private CategoriaRepo categoriaRepo;
 
     @Autowired
     private CiudadRepo cityRepo;
@@ -42,25 +40,20 @@ public class ProductoTest {
     @Test
     @Sql("classpath:ciudades.sql")
     @Sql("classpath:usuarios.sql")
-    @Sql("classpath:categorias.sql")
     public void registrarTest(){
 
         Ciudad ciudad = cityRepo.findById(1001).orElse(null);
 
-        Categoria categoria1 = categoriaRepo.findById(1).orElse(null);
-        Categoria categoria2 = categoriaRepo.findById(2).orElse(null);
+        Categoria categoria1 = Categoria.GAMING;
+        Categoria categoria2 = Categoria.SMARTPHONE;
         List<Categoria>categorias = Arrays.asList(categoria1,categoria2);
 
 
 
         Usuario usuario = usuarioRepo.findById(100).orElse(null);
 
-        Map<String, String> rutaFotos = new HashMap<>();
-        rutaFotos.put("frontal","rutaaleatoria1");
-        rutaFotos.put("lateral","rutaaleatoria2");
-
         Producto producto = new Producto("8TR","Microfono MAX3", 80,
-                "Tiene bloqueo de sonido y es compatible con mac", 0, 260000, LocalDate.now(), 0, rutaFotos,categorias,usuario,ciudad);
+                "Tiene bloqueo de sonido y es compatible con mac", 0, 260000, LocalDate.now(), 0,categorias,usuario,ciudad);
 
 
         Producto guardado1 = productoRepo.save(producto);
@@ -116,5 +109,65 @@ public class ProductoTest {
         productos.forEach(u -> System.out.println(u));
     }
 
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:categorias.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    public void obtenerNombreVendedorTest(){
+        String nombre = productoRepo.obtenerNombreVendedor(102);
+        Assertions.assertEquals("Sergio Esteban Latorre",nombre);
+    }
 
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:categorias.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    public void listarProductosYComentariosTest(){
+        List<Object[]> respuesta = productoRepo.listarProductosYComentarios();
+
+        respuesta.forEach(o -> System.out.println(o[0]
+                +"...."+o[1]+"...."+o[2]));
+
+    }
+
+
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:categorias.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    @Sql("classpath:comentarios.sql")
+    public void listarUsuariosComentariosTest(){
+
+        List<Usuario> usuarios = productoRepo.listarUsuariosComentarios("1E");
+        usuarios.forEach(System.out::println);
+        Assertions.assertEquals(1, usuarios.size());
+
+    }
+
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:categorias.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    public void listarProductosValidosTest(){
+
+        List<ProductoValido> productos = productoRepo.listarProductosValidos();
+        productos.forEach(System.out::println);
+        Assertions.assertEquals(2, productos.size());
+    }
+
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:categorias.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    public void listarProductosValidosPorCategoriaTest(){
+
+        List<ProductoValido> productos = productoRepo.listarProductosValidos();
+        productos.forEach(System.out::println);
+        Assertions.assertEquals(2, productos.size());
+    }
 }

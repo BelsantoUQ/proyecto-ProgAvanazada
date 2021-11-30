@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.test;
 
 import co.edu.uniquindio.proyecto.entidades.Ciudad;
+import co.edu.uniquindio.proyecto.entidades.Producto;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.repositorios.CiudadRepo;
 import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
@@ -39,7 +40,7 @@ public class UsuarioTest {
         Map<String, String> telefonos = new HashMap<>();
         telefonos.put("propio","3165411222");
         telefonos.put("novia","3175419888");
-        Usuario usuario = new Usuario("Carlos Esteban","carlito@gmail.com","12345",telefonos, ciudad, 0);
+        Usuario usuario = new Usuario("Carlos Esteban","userwow","carlito@gmail.com","12345",telefonos, ciudad, 0);
 
 
         Usuario usuarioGuardado1 = usuarioRepo.save(usuario);
@@ -112,5 +113,27 @@ public class UsuarioTest {
 
         List<Usuario> lista = usuarioRepo.findAll(Sort.by("nombre"));
         System.out.println(lista);
+    }
+
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    public void productosFavoritosTest() {
+
+        List<Producto> favoritos = usuarioRepo.obtenerProductosFavoritos("elemailaleta@gmail.com");
+        Assertions.assertEquals(2, favoritos.size());
+    }
+
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    public void listarUsuariosProductosTest(){
+        List<Object[]>respuesta = usuarioRepo.listarUsuariosYProductos();
+
+        for(Object[] objeto: respuesta){
+            System.out.println(objeto[0]+"...."+objeto[1]+"...."+objeto[2]);
+        }
     }
 }

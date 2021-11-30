@@ -95,4 +95,16 @@ public class ComentarioTest {
         comentarios.forEach(u -> System.out.println(u));
     }
 
+    @Test
+    @Sql("classpath:ciudades.sql")
+    @Sql("classpath:usuarios.sql")
+    @Sql("classpath:productos.sql")
+    @Sql("classpath:comentarios.sql")
+    public void listarConRango(){
+        List<Comentario> comentarios = comentarioRepo.listarComentariosRango1(1,4);
+        List<Comentario> comentarios2 = comentarioRepo.listarComentariosRango1(3,5);
+        System.out.println(comentarios2);
+        System.out.println(comentarios);
+    }
+
 }

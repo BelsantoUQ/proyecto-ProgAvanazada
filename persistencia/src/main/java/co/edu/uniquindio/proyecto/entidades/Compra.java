@@ -27,14 +27,14 @@ public class Compra implements Serializable {
     private String medioPago;
 
     @ManyToOne
-    private Usuario compraDeUser;
+    private Usuario comprador;
 
     @OneToMany(mappedBy = "compra")
     @ToString.Exclude
     private List<DetalleCompra> comprasDetalladas;
 
-    public Compra(String medioPago, Usuario compraDeUser) {
+    public Compra(String medioPago, Usuario comprador) {
         this.medioPago = medioPago;
-        this.compraDeUser = compraDeUser;
+        this.comprador = comprador;
     }
 }
