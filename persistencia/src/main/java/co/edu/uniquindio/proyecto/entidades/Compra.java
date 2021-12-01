@@ -3,6 +3,7 @@ package co.edu.uniquindio.proyecto.entidades;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Compra implements Serializable {
     private LocalDateTime fechaCompra;
 
     @Column(nullable = false)
+    @NotBlank
     private String medioPago;
 
     @ManyToOne

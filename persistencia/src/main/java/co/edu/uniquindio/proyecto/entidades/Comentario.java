@@ -4,6 +4,8 @@ package co.edu.uniquindio.proyecto.entidades;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -24,6 +26,7 @@ public class Comentario implements Serializable {
     private Integer codigo;
 
     @Column(length = 300, nullable = false)
+    @NotBlank
     private String mensaje;
 
     @Column(length = 300, nullable = false)
@@ -33,6 +36,7 @@ public class Comentario implements Serializable {
     private LocalDateTime fechaComentario;
 
     @Column(nullable = false)
+    @PositiveOrZero
     private int calificacion;
 
     @ManyToOne

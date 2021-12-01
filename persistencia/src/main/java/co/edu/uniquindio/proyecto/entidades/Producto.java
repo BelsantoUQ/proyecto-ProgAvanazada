@@ -4,6 +4,7 @@ package co.edu.uniquindio.proyecto.entidades;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Future;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
@@ -20,9 +21,11 @@ public class Producto implements Serializable {
 
     @Id
     @EqualsAndHashCode.Include
+    @Positive
     private String codigo;
 
     @Column(nullable = false, length = 100)
+    @NotBlank
     private String nombre;
 
     @Column(nullable = false, length = 80)
@@ -33,6 +36,7 @@ public class Producto implements Serializable {
     private Integer unidades;
 
     @Column(nullable = false, length = 600)
+    @NotBlank
     private String descripcion;
 
     @PositiveOrZero

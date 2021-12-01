@@ -23,7 +23,8 @@ public class Persona implements Serializable {
     private Integer codigo;
 
     @Column(nullable = false, length = 100)
-    @Length(max = 150)
+    @Length(max = 100, message = "Debe ser menor a 100 caracteres")
+    @NotBlank
     private String nombre;
 
     @Column(unique = true,nullable = false, length = 200)
@@ -32,7 +33,7 @@ public class Persona implements Serializable {
     private String email;
 
     @Column(nullable = false, length = 50)
-    @Length(max = 90)
+    @Length(max = 50)
     @NotBlank
     private String password;
 

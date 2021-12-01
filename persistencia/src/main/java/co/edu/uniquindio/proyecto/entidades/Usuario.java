@@ -1,8 +1,12 @@
 package co.edu.uniquindio.proyecto.entidades;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -16,16 +20,20 @@ public class Usuario extends Persona implements Serializable {
 
 
     @Column(nullable = false, length = 100)
+    @PositiveOrZero
     private int puntos;
 
     @Column(unique = true,nullable = false, length = 100)
+    @Length(max = 100)
+    @NotBlank(message = "Debe ingresar una nombre de usuario no mayor a 100 caracteres")
     private String username;
 
     @Column(length = 300)
     private String rutaFoto;
-    
+
     @ElementCollection
     @Column(nullable = false)
+    @NotEmpty
     private Map<String,String> num_telefono;
 
     @ManyToOne
