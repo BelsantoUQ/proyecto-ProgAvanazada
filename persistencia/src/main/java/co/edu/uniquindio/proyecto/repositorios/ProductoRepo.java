@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.repositorios;
 
 import co.edu.uniquindio.proyecto.entidades.Categoria;
+import co.edu.uniquindio.proyecto.entidades.Comentario;
 import co.edu.uniquindio.proyecto.entidades.Producto;
 import co.edu.uniquindio.proyecto.dto.ProductoValido;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
@@ -17,6 +18,9 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
     List<Producto> findAllByVendedorUsername(String username);
 
     List<Producto> findAllByNombreContains(String nombre);
+
+    @Query("select p.comentarios from Producto p where p.codigo = :codigo")
+    List<Comentario> listarComentarios(String codigo);
 
     @Query("select p.vendedor.nombre from Producto p where p.codigo = :id")
     String obtenerNombreVendedor(Integer id);
@@ -46,7 +50,7 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
     List<Producto> obtenerProductosVendedor(String username);
 
     @Query("select avg(c.calificacion) from Producto p join p.comentarios c where p.codigo = :codigo")
-    float obtenerPromedioCalificaciones(int codigo);
+    float obtenerPromedioCalificaciones(String codigo);
 
     @Query("select c, count (s) from Subasta s join s.productoEnSubasta.categorias c where s.fechaLimite > current_timestamp group by c")
     float obtenerCantidadProductosSubastaC();

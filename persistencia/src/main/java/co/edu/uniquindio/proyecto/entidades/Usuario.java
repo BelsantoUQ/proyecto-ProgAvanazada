@@ -64,6 +64,15 @@ public class Usuario extends Persona implements Serializable {
     @ToString.Exclude
     private List<Chat> chatsDelUsuario;
 
+    public String getImagenUser(){
+        if(this.rutaFoto !=null && this.rutaFoto!=""){
+
+            return this.rutaFoto;
+
+        }
+        return "default2.png";
+    }
+
 
 
 }

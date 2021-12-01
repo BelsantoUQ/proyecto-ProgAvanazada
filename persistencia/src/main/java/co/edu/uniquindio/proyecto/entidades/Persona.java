@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Getter
@@ -26,11 +27,13 @@ public class Persona implements Serializable {
     private String nombre;
 
     @Column(unique = true,nullable = false, length = 200)
-    @Email
+    @Email(message = "Escriba un email válido")
+    @NotBlank
     private String email;
 
     @Column(nullable = false, length = 50)
-    @Length(max = 50)
+    @Length(max = 90)
+    @NotBlank
     private String password;
 
 

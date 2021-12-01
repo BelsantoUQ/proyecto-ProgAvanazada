@@ -5,7 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -46,5 +48,9 @@ public class Comentario implements Serializable {
         this.calificacion = calificacion;
         this.userComent = userComent;
         this.productoC = productoC;
+    }
+
+    public String getFechaEstilo(){
+        return fechaComentario.format(DateTimeFormatter.ISO_DATE);
     }
 }

@@ -5,6 +5,8 @@ public enum Categoria {
     PINES,
     GAMING,
     MUSICA,
-    MASCOTAS
+    MASCOTAS,
+    TECNOLOGIA,
+    ROPA
 
 }
