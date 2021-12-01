@@ -1,6 +1,7 @@
 package co.edu.uniquindio.proyecto.interfaceService;
 
 import co.edu.uniquindio.proyecto.entidades.Categoria;
+import co.edu.uniquindio.proyecto.entidades.Comentario;
 import co.edu.uniquindio.proyecto.entidades.Producto;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 
@@ -26,7 +27,15 @@ public interface IProductoService {
 
     List<Producto> buscarProductos(String nombre, String[] filtros);
 
-    Categoria obtenerCategoria(String c) throws Exception;
+    Categoria obtenerCategoria(String c);
 
     List<Categoria> listarCategorias();
+
+    void comentarProducto(Comentario comentario);
+
+    List<Comentario> listarComentarios(String codigo);
+
+    float promedioCalificaciones(String codigo) throws Exception;
+
+
 }

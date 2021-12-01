@@ -1,13 +1,16 @@
 package co.edu.uniquindio.proyecto.servicios;
 
 import co.edu.uniquindio.proyecto.entidades.Categoria;
+import co.edu.uniquindio.proyecto.entidades.Comentario;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 import co.edu.uniquindio.proyecto.interfaceService.IProductoService;
 import co.edu.uniquindio.proyecto.entidades.Producto;
+import co.edu.uniquindio.proyecto.repositorios.ComentarioRepo;
 import co.edu.uniquindio.proyecto.repositorios.ProductoRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +20,9 @@ public class ProductoService implements IProductoService {
 
     @Autowired
     private ProductoRepo data;
+
+    @Autowired
+    private ComentarioRepo comentarioRepo;
 
 
     @Override
@@ -91,13 +97,38 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
-    public Categoria obtenerCategoria(String categoria) throws Exception {
+    public Categoria obtenerCategoria(String categoria){
         return Categoria.valueOf(categoria);
     }
 
     @Override
     public List<Categoria> listarCategorias() {
         return Arrays.asList(Categoria.values());
+    }
+
+    @Override
+    public void comentarProducto(Comentario comentario) {
+        comentario.setFechaComentario(LocalDateTime.now());
+        comentarioRepo.save(comentario);
+    }
+
+    @Override
+    public List<Comentario> listarComentarios(String codigo){
+
+        return data.listarComentarios(codigo);
+    }
+
+    @Override
+    public float promedioCalificaciones(String codigo) throws Exception{
+        if(data.findById(codigo).isEmpty()){
+            throw new Exception("No se logró encontrar el producto en la base de datos");
+        }
+        try {
+
+        return data.obtenerPromedioCalificaciones(codigo);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 }
 
