@@ -1,10 +1,9 @@
 package co.edu.uniquindio.proyecto.interfaceService;
 
-import co.edu.uniquindio.proyecto.entidades.Categoria;
-import co.edu.uniquindio.proyecto.entidades.Comentario;
-import co.edu.uniquindio.proyecto.entidades.Producto;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.dto.ProductoCarrito;
+import co.edu.uniquindio.proyecto.entidades.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +24,15 @@ public interface IProductoService {
 
     Optional<Usuario> obtenerVendedor(int codigo) throws Exception;
 
-    List<Producto> buscarProductos(String nombre, String[] filtros);
+    List<Producto> listarValidosPorCategoria(Categoria categoria);
+
+    List<Producto> buscarIncluirCategoria(String nombre, Categoria categoria);
+
+    List<Producto> buscarIncluirCiudad(String nombre, Ciudad ciudad) throws Exception;
+
+    List<Producto> buscarIncluirCalificacion(String nombre, int calif) throws Exception;
+
+    List<Producto> buscarProductos(String nombre);
 
     Categoria obtenerCategoria(String c);
 
@@ -33,9 +40,16 @@ public interface IProductoService {
 
     void comentarProducto(Comentario comentario);
 
+    void actualizarComentarioProducto(Comentario comentario) throws Exception;
+
     List<Comentario> listarComentarios(String codigo);
 
     float promedioCalificaciones(String codigo) throws Exception;
 
+    void asignarProductoCompra(DetalleCompra dc) throws Exception;
+
+    Compra comprarProductos(Usuario usuario, ArrayList<ProductoCarrito> productos, String medioPago) throws Exception;
+
+    Subasta subastarProducto(Producto p) throws Exception;
 
 }

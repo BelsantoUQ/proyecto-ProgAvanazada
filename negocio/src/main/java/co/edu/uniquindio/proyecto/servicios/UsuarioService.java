@@ -16,6 +16,9 @@ public class UsuarioService implements IUsuarioServicio {
     @Autowired
     private UsuarioRepo data;
 
+    @Autowired
+    private SendMailService mailSenderService;
+
     @Override
     public Usuario guardar(Usuario u) throws Exception {
         int validacion = validarExistente(u);
@@ -71,11 +74,9 @@ public class UsuarioService implements IUsuarioServicio {
     }
 
     @Override
-    public Optional<Usuario> buscarPorEmail(String email) throws Exception{
+    public Optional<Usuario> buscarPorEmail(String email){
         Optional<Usuario> buscado = data.findByEmail(email);
-        if (buscado.isEmpty()){
-            throw new Exception("No se ha encontrado email");
-        }
+
         return buscado;
     }
 
@@ -89,8 +90,15 @@ public class UsuarioService implements IUsuarioServicio {
     }
 
     @Override
-    public Usuario iniciarSesion(String email, String password) throws Exception {
-        return data.findByEmailAndPassword(email, password).orElseThrow( () -> new Exception("Los datos de autenticacion son incorrectos"));
+    public Optional<Usuario> iniciarSesion(String email, String password) {
+        return data.findByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public void recuperarContraseña(Usuario usuario) {
+        mailSenderService.sendMail("elitesantymetal@gmail.com",usuario.getEmail(),"RECUPERACION DE CONTRASEÑA"
+                ,"Buenos dias, tardes o noches, este mensaje es enviado para indicar que ha intentado ingresar " +
+                        "3 veces sin exito así que aqui está su contraseña"+usuario.getPassword());
     }
 
     @Override
@@ -101,6 +109,9 @@ public class UsuarioService implements IUsuarioServicio {
     @Override
     public List<Producto> listarProductosFavoritos(String email) throws Exception{
         Optional<Usuario>buscado = buscarPorEmail(email);
+        if (buscado.isEmpty()){
+            throw new Exception("No se ha encontrado email");
+        }
         return data.obtenerProductosFavoritos(email);
     }
 }

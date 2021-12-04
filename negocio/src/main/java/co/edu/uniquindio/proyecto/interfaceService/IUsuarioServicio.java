@@ -21,11 +21,12 @@ public interface IUsuarioServicio {
 
     List<Producto> listarProductosFavoritos(String email) throws Exception;
 
-    Optional<Usuario> buscarPorEmail(String email) throws Exception;
+    Optional<Usuario> buscarPorEmail(String email);
 
     Optional<Usuario> obtenerUsuario(int codigo) throws Exception;
 
-    Usuario iniciarSesion(String email, String contraseña) throws Exception;
+    Optional<Usuario> iniciarSesion(String email, String contraseña);
 
+    void recuperarContraseña(Usuario usuario);
 
 }
