@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="../WEB-INF/template.xhtml">
+
+    <ui:define name="title">Modificar un Producto</ui:define>
+
+    <ui:define name="content">
+
+        <p:panel header="Modificar Producto">
+            <div class="card">
+                <h:form>
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Nombre:" class="col-sm-2 col-form-label" for="nombre_p"/>
+                        <div class="col-sm-10">
+                            <p:inputText id="nombre_p" class="form-control" value="#{modificarProductoBean.producto.nombre}" required="true" />
+                        </div>
+                        <p:message for="nombre_p"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Nombre de la Publicacion:" class="col-sm-2 col-form-label" for="nombre_publicacion"/>
+                        <div class="col-sm-10">
+                            <p:inputText id="nombre_publicacion" class="form-control" value="#{modificarProductoBean.producto.nombrePublicacion}" required="true" />
+                        </div>
+                        <p:message for="nombre_publicacion"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Precio:" class="col-sm-2 col-form-label" for="precio_p"/>
+                        <div class="col-sm-10">
+                            <p:inputText id="precio_p" class="form-control" value="#{modificarProductoBean.producto.precio}" required="true" type="number"/>
+                        </div>
+                        <p:message for="precio_p"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Precio en Puntos:" class="col-sm-2 col-form-label" for="precio_puntos_p"/>
+                        <div class="col-sm-10">
+                            <p:inputText id="precio_puntos_p" class="form-control" value="#{modificarProductoBean.producto.valor_en_puntos}" type="number"/>
+                        </div>
+                        <p:message for="precio_puntos_p"/>
+                    </div>
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Unidades:" class="col-sm-2 col-form-label" for="unidades_p"/>
+                        <div class="col-sm-10">
+                            <p:inputText id="unidades_p" class="form-control" value="#{modificarProductoBean.producto.unidades}" type="number" required="true"/>
+                        </div>
+                        <p:message for="unidades_p"/>
+                    </div>
+
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Descuento:" class="col-sm-2 col-form-label" for="descuento_p" />
+                        <div class="col-sm-10">
+                            <p:inputText id="descuento_p" class="form-control" value="#{modificarProductoBean.producto.descuento}" type="number"/>
+                        </div>
+                        <p:message for="descuento_p"/>
+                    </div>
+
+
+
+                    <div class="form-group row">
+                        <p:outputLabel value="Ciudad:" class="col-sm-2 col-form-label" for="ciudad_p"/>
+                        <div class="col-sm-10">
+                            <p:selectOneMenu id="ciudad_p" class="form-control" value="#{modificarProductoBean.producto.ciudadProducto}" converter="#{ciudadConverter}" required="true">
+                                <f:selectItem itemLabel="Seleccione una ciudad" noSelectionOption="true"/>
+                                <f:selectItems value="#{productoBean.ciudades}" var="ciudad" itemLabel="#{ciudad.nombre}"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <p:outputLabel value="" class="col-sm-2 col-form-label" for="descripcion_p"/>
+                        <div class="col-sm-10">
+                            <p:textEditor id="descripcion_p" class="form-control" value="#{modificarProductoBean.producto.descripcion}" height="300" placeholder="Enter your content" secure="false">
+                                <f:facet name="toolbar">
+             <span class="ql-formats">
+                <button class="ql-bold"></button>
+                <button class="ql-italic"></button>
+                <button class="ql-underline"></button>
+                <button class="ql-strike"></button>
+            </span>
+                                    <span class="ql-formats">
+                <select class="ql-font"></select>
+                <select class="ql-size"></select>
+            </span>
+                                </f:facet>
+                            </p:textEditor>
+                        </div>
+                        <p:message for="descripcion_p"/>
+                    </div>
+
+                    <p:growl showDetail="true" for="msj-bean"/>
+                    <p:commandButton value="Guardar cambios" action="#{modificarProductoBean.modificarProducto}" update="@form" icon="pi pi-plus"/>
+
+                </h:form>
+            </div>
+        </p:panel>
+    </ui:define>
+</ui:composition>
+</html>

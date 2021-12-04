@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="../WEB-INF/template.xhtml">
+
+    <ui:define name="title">Carrito</ui:define>
+
+    <ui:define name="content">
+
+        <div class="row w-100">
+            <h:form>
+                <div class="col-lg-12 col-md-12 col-12">
+                    <h3 class="display-5 mb-2 text-center">Shopping Cart</h3>
+                    <p class="mb-5 text-center">
+                        <i class="text-info font-weight-bold">#{seguridadBean.productosCarrito.size()}</i> producto(s) en tu carrito de compras</p>
+                    <table id="shoppingCart" class="table table-condensed table-responsive">
+                        <thead>
+                        <tr>
+                            <th style="width:60%">Producto</th>
+                            <th style="width:12%">Precio Final</th>
+                            <th style="width:10%">Cantidad</th>
+                            <th style="width:16%"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <p:repeat value="#{seguridadBean.productosCarrito}" var="producto" varStatus="p">
+
+                            <tr>
+                                <td >
+                                    <div class="row">
+                                        <div class="col-md-3 text-left">
+                                            <p:graphicImage value="/uploads/#{producto.imagen}" styleClass="imagen-compra"/>
+                                        </div>
+                                        <div class="col-md-9 text-left mt-sm-2">
+                                            <h4>#{producto.nombre}</h4>
+                                            <p class="font-weight-light">Descuento: #{producto.mostrarDescuento()} <i class="text-info font-weight-bold">off</i> </p>
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                                <td >$ #{producto.precioConDcto}</td>
+
+
+                                <td >
+                                    <p:spinner value="#{producto.unidades}" min="1" max="#{producto.unidadesMax}">
+                                        <p:ajax listener="#{seguridadBean.actualizarSubTotal()}" update="@form"/></p:spinner>
+                                </td>
+                                <td class="actions">
+                                    <div class="text-right">
+
+                                        <p:commandButton update="@form" action="#{seguridadBean.eliminarDelCarrito(p.index)}" icon="pi pi-trash" styleClass="btn btn-white border-secondary bg-white btn-md mb-2" />
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </p:repeat>
+
+                        </tbody>
+                    </table>
+                    <div class="float-right text-right">
+                        <h4>Subtotal:</h4>
+                        <h1>$#{seguridadBean.subtotal} COP</h1>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+        <div>
+
+            <h:form>
+                <div class="form-group row mt-4 d-flex align-items-center">
+                    <p:outputLabel value="Medio de Pago:" class="col-sm-2 col-form-label" for="medio_p"/>
+                    <div class="col-sm-10">
+                        <p:selectOneMenu id="medio_p" class="form-control" value="#{seguridadBean.medioPago}" required="true">
+                            <f:selectItem itemLabel="Seleccione un medio de pago" noSelectionOption="true"/>
+                            <f:selectItems value="#{seguridadBean.mediosPagoDisponibles}" var="medio" itemLabel="#{medio}"/>
+                        </p:selectOneMenu>
+                        <p:message for="medio_p"/>
+                    </div>
+                </div>
+                <div class="row mt-4 d-flex align-items-center">
+                    <div class="col-sm-6 order-md-2 text-right">
+
+                        <p:commandButton value="Comprar" update="@form" styleClass="btn btn-primary mb-4 btn-lg pl-5 pr-5" action="#{seguridadBean.comprar}"/>
+                        <p:growl for="compra-ms" showDetail="true"/>
+                    </div>
+                    <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                        <a href="/index.xhtml">
+                            <i class="fas fa-arrow-left mr-2"></i> Continuar Comprando</a>
+                    </div>
+
+                </div>
+            </h:form>
+        </div>
+
+
+    </ui:define>
+</ui:composition>
+</html>

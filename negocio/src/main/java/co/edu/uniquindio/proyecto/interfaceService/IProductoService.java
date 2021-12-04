@@ -24,6 +24,9 @@ public interface IProductoService {
 
     Optional<Usuario> obtenerVendedor(int codigo) throws Exception;
 
+
+    Optional<Usuario> obtenerVendedorProducto(Producto p, int codigoVendedor) throws Exception;
+
     List<Producto> listarValidosPorCategoria(Categoria categoria);
 
     List<Producto> buscarIncluirCategoria(String nombre, Categoria categoria);

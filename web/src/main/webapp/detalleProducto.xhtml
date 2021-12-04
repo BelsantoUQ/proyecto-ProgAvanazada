@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{detalleProductoBean.producto.nombre}</ui:define>
+
+    <ui:define name="content">
+        <div class="row" >
+            <div class="col-lg-7 col-md-1">
+                <div class="box box-stretched">
+                    <p:galleria rendered="#{detalleProductoBean.producto.imagenRuta.size() > 0}" value="#{detalleProductoBean.producto.imagenRuta}" var="imagen" panelHeight="425">
+                        <p:graphicImage url="/uploads/#{imagen}" alt="Image Description for #{imagen}" title="#{imagen}" styleClass="rounded shadow" />
+                    </p:galleria>
+                    <p:graphicImage rendered="#{detalleProductoBean.producto.imagenRuta.size() == 0}" url="/uploads/#{detalleProductoBean.producto.imagenDestacada}" alt="Image Description for #{detalleProductoBean.producto.imagenDestacada}" title="#{detalleProductoBean.producto.imagenDestacada}" styleClass="imagen-default rounded" />
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-1">
+                <div class="p-grid">
+                    <div class="box">
+                        <p:rating value="#{detalleProductoBean.calificacionPromedio}" readonly="true"/>
+                        <h1 class="mt-4">#{detalleProductoBean.producto.nombrePublicacion}</h1>
+
+                        <h1 class="mt-4">$#{detalleProductoBean.producto.precio}</h1>
+
+                        <h:form class="mt-4" rendered="#{seguridadBean.autenticado}">
+                            <p:commandButton value="#{detalleProductoBean.getContenidoBoton()}" icon="#{detalleProductoBean.getIconBoton()}" update="@form" action="#{detalleProductoBean.getBotonAgregar()}" />
+                            <p:growl for="add-cart" showDetail="true" />
+                        </h:form>
+
+                        <h:form class="mt-4" rendered="#{seguridadBean.autenticado}">
+                            <p:commandButton value="Añadir al carrito" icon="pi pi-shopping-cart" disabled="#{detalleProductoBean.vendedorAutenticado}" update="@form" action="#{seguridadBean.agregarAlCarrito(detalleProductoBean.producto.codigo, detalleProductoBean.producto.precio, detalleProductoBean.producto.nombre, detalleProductoBean.producto.imagenDestacada, detalleProductoBean.producto.valor_en_puntos, detalleProductoBean.producto.descuento, detalleProductoBean.producto.unidades)}" />
+                            <p:growl for="add-cart" showDetail="true" />
+                        </h:form>
+
+                    </div>
+                    <div class="box">
+                        <h3><h:outputText value="#{detalleProductoBean.producto.ciudadProducto.nombre}"/></h3>
+                    </div>
+
+
+
+                    <p:dataList emptyMessage="No hay cayegorías para este producto" styleClass="lista-carac" value="#{detalleProductoBean.producto.categorias}" var="categoria">
+                        <f:facet name="header">Categoría</f:facet>
+                        <p>#{categoria}</p>
+                    </p:dataList>
+                </div>
+            </div>
+        </div>
+
+        <p:panel header="Descripción" styleClass="mt-3">
+            <h:outputText value="#{detalleProductoBean.producto.descripcion}" escape="false"/>
+        </p:panel>
+
+        <p:panel header="#{detalleProductoBean.mostrarContenidoComentar()}" styleClass="mt-3" rendered="#{seguridadBean.autenticado}" >
+
+            <h:form id="crear-comentario" rendered="#{!detalleProductoBean.vendedorAutenticado}" >
+                <h:panelGrid columns="2" cellpadding="3">
+                    <p:inputTextarea value="#{detalleProductoBean.nuevoComentario.mensaje}" required="true" styleClass="comentario-usuario" />
+                    <p:rating value="#{detalleProductoBean.nuevoComentario.calificacion}" required="true"/>
+                </h:panelGrid>
+                <p:commandButton value="Comentar" icon="pi pi-comment" iconPos="left" update="@form, lista-com" styleClass="mt-4" action="#{detalleProductoBean.crearComentario}" />
+                <p:growl for="msj-pregunta" showDetail="true" />
+            </h:form>
+        </p:panel>
+
+
+        <p:panel header="Comentarios" styleClass="mt-3">
+            <div class="blog-comment">
+                <ul class="comments" >
+                    <p:dataList id="lista-com" value="#{detalleProductoBean.comentarios}" var="comentario" emptyMessage="No hay comentarios" type="definition">
+                        <li class="clearfix">
+                            <img src="/uploads/#{comentario.userComent.imagenUser}" class="avatar" alt="" />
+                            <div class="post-comments">
+                                <p class="meta">#{comentario.fechaEstilo} <a href="#">#{comentario.userComent.nombre}</a> dijo: <i class="pull-right" style="visibility: hidden"><a href="#"><small>Reply</small></a></i></p>
+                                <p>#{comentario.mensaje}</p>
+                                <p:rating readonly="true" value="#{comentario.calificacion}" />
+                            </div>
+
+                            <ul class="comments" jsf:rendered="#{comentario.respuesta != null}">
+                                <li class="clearfix">
+                                    <img src="/uploads/#{comentario.userComent.imagenUser}" class="avatar" alt="" />
+                                    <div class="post-comments">
+                                        <p class="meta"> <a href="#">#{comentario.productoC.vendedor.nombre}</a> dijo: </p>
+                                        <p>#{comentario.respuesta}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </p:dataList>
+                </ul>
+            </div>
+        </p:panel>
+
+    </ui:define>
+</ui:composition>
+</html>

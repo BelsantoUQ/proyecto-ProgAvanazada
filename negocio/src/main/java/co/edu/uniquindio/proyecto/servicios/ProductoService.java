@@ -109,6 +109,15 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
+    public Optional<Usuario> obtenerVendedorProducto(Producto p, int codigoVendedor) throws Exception {
+        Optional<Usuario>vendedor = data.obtenerVendedorPorProducto(p,codigoVendedor);
+        if (vendedor.isEmpty()){
+            throw new Exception("El codigo no pertenece a un vendedor existente");
+        }
+        return vendedor;
+    }
+
+    @Override
     public List<Producto> listarValidosPorCategoria(Categoria categoria) {
         return data.listarValidosPorCategoria(categoria);
     }

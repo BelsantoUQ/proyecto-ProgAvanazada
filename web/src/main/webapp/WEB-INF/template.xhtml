@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet library="css" name="bootstrap.min.css" />
+    <h:outputStylesheet library="css" name="Styles.css"/>
+    <h:outputScript library="js" name="bootstrap.bundle.min.js"/>
+
+    <title><ui:insert name="title"> TITULO</ui:insert></title>
+</h:head>
+<h:body>
+
+    <div id="header" class="p-3 mb-3 border-bottom">
+
+            <div class="container">
+
+
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/index.xhtml" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                        <span class="pi pi-home"></span>
+                    </a>
+
+                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                        <li><a href="/index.xhtml" class="nav-link px-2 link-secondary">PRODUCTOS</a></li>
+                        <li><a href="#" class="nav-link px-2 link-secondary">CON PUNTOS</a></li>
+                        <li><a href="#" class="nav-link px-2 link-secondary">SUBASTAS</a></li>
+
+                    </ul>
+
+                    <div class="col-lg-auto me-lg-auto mb-9 justify-content-center mb-md-6">
+                        <h:form>
+                            <p:inputText placeholder="¿Que deseas comprar?" required="true" value="#{busquedaBean.busqueda}"/>
+                            <p:commandButton icon="pi pi-search" action="#{busquedaBean.buscar}" update="@form" />
+                        </h:form>
+                    </div>
+                    <div class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+
+                        <h:form>
+                            <p:commandButton icon="#{seguridadBean.iconoRegistrar}" value="#{seguridadBean.contenidoBotonRegistro}" styleClass="btn btn-outline-success text-dark me-2 mt-2" action="#{seguridadBean.getLinkBotonRegistrar}" />
+                        </h:form>
+
+                        <p:commandButton icon="#{seguridadBean.iconoLogin}" value="#{seguridadBean.contenidoBotonLogin}" styleClass="btn btn-outline-light text-dark mt-2 me-2" onclick="PF('login').show()" disabled="#{seguridadBean.autenticado}"/>
+
+                    </div>
+                    <div class="dropdown text-end">
+                        <h:form  rendered="#{seguridadBean.autenticado}">
+
+                        <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="/uploads/#{seguridadBean.usuarioSesion.imagenUser}" alt="mdo" width="32" height="32" class="rounded-circle"/>
+                        </a>
+
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1" style="">
+                            <li><a class="dropdown-item" href="/usuario/registrarProducto.xhtml">Vender algo...</a></li>
+                            <li><a class="dropdown-item" href="/usuario/misSubastas.xhtml">Mis subastas</a></li>
+                            <li><a class="dropdown-item" href="/usuario/misProductos.xhtml">Mis productos</a></li>
+                            <li><a class="dropdown-item" href="#">Mis compras</a></li>
+                            <li><a class="dropdown-item" href="#">Mis chats</a></li>
+                            <li><a class="dropdown-item" href="#">Mi perfil</a></li>
+                            <li><hr class="dropdown-divider"/></li>
+                            <li><h:commandButton value="Log-out" styleClass="dropdown-item" action="#{seguridadBean.cerrarSesion}"/></li>
+                        </ul>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <p:dialog header="Iniciar sesión" showEffect="fade" widgetVar="login" modal="true"
+              rendered="#{!seguridadBean.autenticado}" >
+    <h:form >
+        <h:panelGrid columns="3" cellpadding="5">
+            <p:outputLabel for="email_login" value="Email:" />
+            <p:inputText id="email_login" value="#{seguridadBean.email}" required="true" />
+            <p:message for="email_login" />
+            <p:outputLabel for="password_login" value="Password:" />
+            <p:password id="password_login" value="#{seguridadBean.password}" required="true"
+            />
+            <p:message for="password_login" />
+        </h:panelGrid>
+        <p:commandButton value="Iniciar Sesión" action="#{seguridadBean.iniciarSesion}"
+                         styleClass="mt-4" update="@form" icon="pi pi-sign-in" iconPos="left" />
+        <p:growl for="login-bean" showDetail="true" />
+    </h:form>
+    </p:dialog>
+    <div id="content">
+        <div class="container">
+
+            <ui:insert name="content">Contenido del Documento</ui:insert>
+
+        </div>
+    </div>
+
+    <div id="footer" class="footer mt-4">
+        <ui:insert name="footer">
+            <div class="py-4 bg-light" align="center">
+                <div class="justify-content-center" >
+                    <div class="col-10" >
+                        <span>Universidad del Quindío - Programación avanzada - 2021</span>
+                    </div>
+                </div>
+            </div>
+        </ui:insert>
+    </div>>
+
+</h:body>
+</html>

@@ -20,10 +20,8 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
     @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and :categoria member of p.categorias and current_timestamp < p.fechaLimite and p.unidades > 0 ")
     List<Producto> buscarProductoCategoria(Categoria categoria, String nombre);
 
-
     @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and :ciudad = p.ciudadProducto and current_timestamp < p.fechaLimite and p.unidades > 0 ")
     List<Producto> buscarProductoCiudad(Ciudad ciudad, String nombre);
-
 
     @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and current_timestamp < p.fechaLimite and p.unidades > 0 ")
     List<Producto> buscarProductoValido(String nombre);
@@ -39,6 +37,10 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
 
     @Query("select p.vendedor from Producto p where p.vendedor.codigo = :codigo")
     Optional<Usuario> obtenerVendedorPorCodigo(int codigo);
+
+
+    @Query("select p.vendedor from Producto p where :p = p  and p.vendedor.codigo = :codigo")
+    Optional<Usuario> obtenerVendedorPorProducto(Producto p, int codigo);
 
     @Query("select  p, c from Producto p join p.comentarios c")
     List<Object[]> listarProductosYComentarios();

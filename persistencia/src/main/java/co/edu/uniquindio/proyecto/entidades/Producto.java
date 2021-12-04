@@ -12,6 +12,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -98,11 +99,12 @@ public class Producto implements Serializable {
         this.precio = precio;
         this.fechaLimite = fechaLimite;
         this.descuento = descuento;
-        this.imagenRuta = imagenRuta;
+        this.imagenRuta = new ArrayList<>();
         this.categorias = categorias;
         this.vendedor = vendedor;
         this.ciudadProducto = ciudadProducto;
         this.valor_en_puntos = valor_en_puntos;
+        this.usuariosPotenciales = new ArrayList<>();
     }
 
     public String getImagenDestacada(){

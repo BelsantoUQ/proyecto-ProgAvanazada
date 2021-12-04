@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,8 @@ public class Usuario extends Persona implements Serializable {
         this.num_telefono = num_telefono;
         this.ciudadUsuario = ciudad;
         this.puntos = puntos;
+        this.productosFavoritos = new ArrayList<>();
+        this.comentariosDelUser=new ArrayList<>();
     }
 
     @ManyToMany

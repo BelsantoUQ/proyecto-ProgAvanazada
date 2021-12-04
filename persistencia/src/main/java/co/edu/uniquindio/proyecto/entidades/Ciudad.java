@@ -20,7 +20,6 @@ public class Ciudad implements Serializable {
     private Integer codigo;
 
     @Column(length = 50, nullable = false)
-    @Length(max = 50, message ="Debe ser menor de 50 caracteres" )
     private String nombre;
 
     @OneToMany(mappedBy = "ciudadUsuario")
