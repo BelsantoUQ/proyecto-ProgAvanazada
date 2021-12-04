@@ -2,6 +2,9 @@ package co.edu.uniquindio.proyecto.entidades;
 
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
@@ -32,7 +35,7 @@ public class Producto implements Serializable {
     private String nombrePublicacion;
 
     @Column(nullable = false)
-    @Positive
+    @PositiveOrZero
     private Integer unidades;
 
     @Column(nullable = false, length = 600)
@@ -53,13 +56,13 @@ public class Producto implements Serializable {
     @PositiveOrZero
     private float descuento;
 
-    @ElementCollection
-    @Column(length = 500)
+
+    @ElementCollection()
+    @Fetch(FetchMode.SUBSELECT)
     private List<String> imagenRuta;
 
-
-    @ElementCollection
-    @Column(nullable = false, length = 150)
+    @ElementCollection()
+    @Fetch(FetchMode.SUBSELECT)
     private List<Categoria> categorias;
 
 //    @JoinColumn(nullable = false)
@@ -105,7 +108,6 @@ public class Producto implements Serializable {
     public String getImagenDestacada(){
         if(this.imagenRuta !=null && !this.imagenRuta.isEmpty()){
 
-            System.out.println(imagenRuta.size()+imagenRuta.get(0));
             return this.imagenRuta.get(0);
 
         }

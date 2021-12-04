@@ -19,6 +19,8 @@ public interface Subasta_UsuarioRepo extends JpaRepository<Subasta_Usuario, Inte
     @Query("select su.usuarioSubasta from Subasta_Usuario su where su.subasta.codigo = :codigo and su.valor = (select max(su2.valor) from Subasta_Usuario su2 where su2.subasta.codigo = :codigo)")
     Optional<Usuario> obtenerUsuarioGanador(int codigo);
 
+    Optional<Subasta_Usuario> findSubasta_UsuarioByUsuarioSubasta(Usuario usuario);
+
 
 
 

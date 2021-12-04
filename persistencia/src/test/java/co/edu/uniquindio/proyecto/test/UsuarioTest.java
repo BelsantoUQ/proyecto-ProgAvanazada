@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +38,9 @@ public class UsuarioTest {
 
         Ciudad ciudad = ciudadRepo.findById(1001).orElse(null);
 
-        Map<String, String> telefonos = new HashMap<>();
-        telefonos.put("propio","3165411222");
-        telefonos.put("novia","3175419888");
+        List< String> telefonos = new ArrayList<>();
+        telefonos.add("3165411222");
+        telefonos.add("3175419888");
         Usuario usuario = new Usuario("Carlos Esteban","userwow","carlito@gmail.com","12345",telefonos, ciudad, 0);
 
 

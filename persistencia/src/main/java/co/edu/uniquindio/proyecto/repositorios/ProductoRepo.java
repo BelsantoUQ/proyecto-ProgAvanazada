@@ -1,10 +1,7 @@
 package co.edu.uniquindio.proyecto.repositorios;
 
-import co.edu.uniquindio.proyecto.entidades.Categoria;
-import co.edu.uniquindio.proyecto.entidades.Comentario;
-import co.edu.uniquindio.proyecto.entidades.Producto;
+import co.edu.uniquindio.proyecto.entidades.*;
 import co.edu.uniquindio.proyecto.dto.ProductoValido;
-import co.edu.uniquindio.proyecto.entidades.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,6 +15,18 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
     List<Producto> findAllByVendedorUsername(String username);
 
     List<Producto> findAllByNombreContains(String nombre);
+
+
+    @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and :categoria member of p.categorias and current_timestamp < p.fechaLimite and p.unidades > 0 ")
+    List<Producto> buscarProductoCategoria(Categoria categoria, String nombre);
+
+
+    @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and :ciudad = p.ciudadProducto and current_timestamp < p.fechaLimite and p.unidades > 0 ")
+    List<Producto> buscarProductoCiudad(Ciudad ciudad, String nombre);
+
+
+    @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and current_timestamp < p.fechaLimite and p.unidades > 0 ")
+    List<Producto> buscarProductoValido(String nombre);
 
     @Query("select p.comentarios from Producto p where p.codigo = :codigo")
     List<Comentario> listarComentarios(String codigo);
