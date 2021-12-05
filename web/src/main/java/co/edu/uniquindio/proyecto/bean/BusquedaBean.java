@@ -1,7 +1,9 @@
 package co.edu.uniquindio.proyecto.bean;
 
 import co.edu.uniquindio.proyecto.entidades.Categoria;
+import co.edu.uniquindio.proyecto.entidades.Ciudad;
 import co.edu.uniquindio.proyecto.entidades.Producto;
+import co.edu.uniquindio.proyecto.interfaceService.ICiudadService;
 import co.edu.uniquindio.proyecto.interfaceService.IProductoService;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,12 +40,21 @@ public class BusquedaBean {
     @Getter @Setter
     private List<Categoria> categorias;
 
+    @Getter @Setter
+    private List<Ciudad> ciudades;
+
+    @Getter @Setter
+    private Ciudad ciudadSelect;
+
+    @Autowired
+    private ICiudadService ciudadServicio;
+
     @PostConstruct
     public void inicializar(){
         if(busquedaParam!=null && !busquedaParam.isEmpty()){
             productos = listarTodo();
         }
-
+        this.ciudades = ciudadServicio.listar();
         this.productos = listarTodo();
         this.categorias = productoServicio.listarCategorias();
     }
@@ -63,6 +74,7 @@ public class BusquedaBean {
             categoriasSelect.clear();
             productos.clear();
             Producto p;
+
             for (int i = 0; i < newListP.size(); i++) {
                 p=newListP.get(i);
                 if (!productos.contains(p)){

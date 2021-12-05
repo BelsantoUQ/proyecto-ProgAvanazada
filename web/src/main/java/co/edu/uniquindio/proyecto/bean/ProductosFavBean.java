@@ -1,9 +1,8 @@
 package co.edu.uniquindio.proyecto.bean;
 
-import co.edu.uniquindio.proyecto.entidades.Subasta;
-import co.edu.uniquindio.proyecto.entidades.Subasta_Usuario;
+import co.edu.uniquindio.proyecto.entidades.Producto;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
-import co.edu.uniquindio.proyecto.interfaceService.ISubastaService;
+import co.edu.uniquindio.proyecto.interfaceService.IProductoService;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,48 +16,35 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 @ViewScoped
 @Component
-public class SubastaBean {
-
+public class ProductosFavBean implements Serializable {
 
     @Autowired
-    private ISubastaService subastaServicio;
+    private IProductoService productoServicio;
 
     @Getter
     @Setter
-    private List<Subasta> subastas;
-
-    @Getter
-    @Setter
-    private Usuario usuarioSubata;
-
-    @Getter
-    @Setter
-    private Subasta_Usuario subasta_usuario;
+    private List<Producto> productos;
 
     @Value("#{seguridadBean.usuarioSesion}")
     private Usuario usuarioSesion;
 
     @PostConstruct
     public void inicializar(){
-        subastas = listarTodo();
+        productos = listarTodo();
     }
 
-    public List<Subasta> listarTodo() {
+    private List<Producto> listarTodo() {
         try {
-            return subastaServicio.listar();
+            return productoServicio.obtenerFavoritos(usuarioSesion);
         } catch (Exception e) {
-            e.printStackTrace();
-        }return new ArrayList<>();
+            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", e.getMessage());
+            FacesContext.getCurrentInstance().addMessage("misP-bean",msg);
+        }
+        return new ArrayList<>();
     }
-
-
-    public String irADetalle(String id){
-        return "detalleSubasta?faces-redirect=true&amp;subasta="+id;
-    }
-
 
 
 }

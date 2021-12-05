@@ -1,6 +1,8 @@
 package co.edu.uniquindio.proyecto.entidades;
 
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,8 +27,8 @@ public class Usuario extends Persona implements Serializable {
     @Column(length = 300)
     private String rutaFoto;
     
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> num_telefono;
+    @ElementCollection()
+    private List<String> num_telefono = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -38,31 +40,31 @@ public class Usuario extends Persona implements Serializable {
         this.num_telefono = num_telefono;
         this.ciudadUsuario = ciudad;
         this.puntos = puntos;
-        this.productosFavoritos = new ArrayList<>();
-        this.comentariosDelUser=new ArrayList<>();
     }
 
-    @ManyToMany
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<Producto> productosFavoritos;
 
-    @OneToMany(mappedBy = "userComent")
+    @OneToMany(mappedBy = "userComent", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Comentario> comentariosDelUser;
 
-    @OneToMany(mappedBy = "usuarioSubasta")
+    @OneToMany(mappedBy = "usuarioSubasta",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Subasta_Usuario> subastasDeUsuario;
 
-    @OneToMany(mappedBy = "comprador")
+    @OneToMany(mappedBy = "comprador",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Compra> comprasUsuario;
 
-    @OneToMany(mappedBy = "vendedor")
+    @OneToMany(mappedBy = "vendedor",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Producto> productosVenta;
 
-    @OneToMany(mappedBy = "chatUsuario")
+    @OneToMany(mappedBy = "chatUsuario",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Chat> chatsDelUsuario;
 

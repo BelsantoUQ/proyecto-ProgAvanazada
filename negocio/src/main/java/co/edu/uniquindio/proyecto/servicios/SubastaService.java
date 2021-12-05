@@ -12,6 +12,7 @@ import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,5 +87,23 @@ public class SubastaService implements ISubastaService {
     public Subasta_Usuario obtenerDetalleSubastaPorUser(Usuario u) throws Exception {
         return subastaUsuarioRepo.findSubasta_UsuarioByUsuarioSubasta(u).orElseThrow(()
                 -> new Exception("No se encontro una ciudad registrada con este codigo"));
+    }
+
+    @Override
+    public void ofertar(Subasta s, Usuario u, float valor) throws Exception {
+
+        Subasta_Usuario su = new Subasta_Usuario(valor, u, s);
+        su.setFechaSubasta(LocalDateTime.now());
+        Optional<Subasta_Usuario> suAux= subastaUsuarioRepo.encontrarSubastaRealizada(u,s,valor);
+        if (suAux.isEmpty()){
+            subastaUsuarioRepo.save(su);
+        }else throw new Exception("Es posible que ya hayas realizado una oferta con ese valor");
+
+
+    }
+
+    @Override
+    public float obtenerMejorOferta(int codigoSubasta){
+        return subastaUsuarioRepo.obtenerOfertaMayor(codigoSubasta);
     }
 }

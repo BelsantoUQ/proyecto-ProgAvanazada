@@ -77,6 +77,11 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
+    public List<Producto> listarProductosPuntos() {
+        return data.listarProductosPuntos();
+    }
+
+    @Override
     public List<Producto> listarPorVendedor(String username) throws Exception {
         Optional<Usuario> vendedor = data.obtenerVendedorPorUsername(username);
         if (vendedor.isEmpty()){
@@ -106,6 +111,16 @@ public class ProductoService implements IProductoService {
             throw new Exception("El codigo no pertenece a un vendedor existente");
         }
         return vendedor;
+    }
+
+    @Override
+    public List<Producto> obtenerFavoritos(Usuario user) throws Exception {
+        if (!usuarioRepo.findById(user.getCodigo()).isEmpty()){
+
+            return data.listarFavoritos(user);
+        }else throw new Exception("No se encontro el usuario");
+
+
     }
 
     @Override
@@ -173,9 +188,9 @@ public class ProductoService implements IProductoService {
     @Override
     public void actualizarComentarioProducto(Comentario comentario) throws Exception{
         if (!comentarioRepo.findById(comentario.getCodigo()).isEmpty()){
-        comentarioRepo.save(comentario);
+            comentarioRepo.save(comentario);
         }else {
-         throw new Exception("Error no se encontro el comentario");
+            throw new Exception("Error no se encontro el comentario");
         }
     }
 
@@ -192,7 +207,7 @@ public class ProductoService implements IProductoService {
         }
         try {
 
-        return data.obtenerPromedioCalificaciones(codigo);
+            return data.obtenerPromedioCalificaciones(codigo);
         } catch (Exception e) {
             return 0;
         }
@@ -200,7 +215,7 @@ public class ProductoService implements IProductoService {
 
     @Override
     public void asignarProductoCompra(DetalleCompra dc) throws Exception {
-            detalleCompraRepo.save(dc);
+        detalleCompraRepo.save(dc);
     }
 
     @Override
@@ -229,9 +244,14 @@ public class ProductoService implements IProductoService {
                 Producto producto = data.findById(pc.getCodigo()).get();
                 dc.setProductoCompra(producto);
                 //
+                int a =pc.getUnidadesMax() -pc.getUnidades();
                 detalleCompraRepo.save(dc);
-                producto.setUnidades(pc.getUnidadesMax()- pc.getUnidades());
-                this.actualizar(producto);
+                try {
+
+                    data.actualizarUnidades(a, pc.getCodigo());
+                }catch (Exception e){
+
+                }
             }
             usuario.setPuntos(puntos);
             usuarioRepo.save(usuario);

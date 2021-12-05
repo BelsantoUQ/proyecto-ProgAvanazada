@@ -67,7 +67,8 @@ public class Producto implements Serializable {
     private List<Categoria> categorias;
 
 //    @JoinColumn(nullable = false)
-    @ManyToMany(mappedBy = "productosFavoritos")
+    @ManyToMany(mappedBy = "productosFavoritos", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
     @ToString.Exclude
     private List<Usuario> usuariosPotenciales;
 
@@ -77,15 +78,15 @@ public class Producto implements Serializable {
     @ManyToOne
     private Ciudad ciudadProducto;
 
-    @OneToMany(mappedBy = "productoCompra")
+    @OneToMany(mappedBy = "productoCompra",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<DetalleCompra> detallesDeCompras;
 
-    @OneToMany(mappedBy = "productoC")
+    @OneToMany(mappedBy = "productoC",fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Comentario> comentarios;
 
-    @OneToMany(mappedBy = "productoEnSubasta")
+    @OneToMany(mappedBy = "productoEnSubasta",fetch = FetchType.LAZY)
     @ToString.Exclude
     private  List<Subasta> subastas;
 

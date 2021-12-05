@@ -29,4 +29,8 @@ public interface ISubastaService {
 
     Subasta_Usuario obtenerDetalleSubastaPorUser(Usuario u) throws Exception;
 
+    void ofertar(Subasta s, Usuario u, float valor) throws Exception;
+
+    float obtenerMejorOferta(int codigo);
+
 }

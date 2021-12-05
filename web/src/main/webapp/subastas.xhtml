@@ -11,64 +11,59 @@
 <ui:composition template="WEB-INF/template.xhtml">
 
 
-    <ui:define name="title">BIENVENIDO</ui:define>
+    <ui:define name="title">Subastas</ui:define>
 
     <ui:define name="content">
 
-        <h1>Lista de productos</h1>
+        <h1>Lista de subastas</h1>
         <h:form>
 
-            <h:panelGrid columns="20">
-
-                <p:outputLabel value="Categorias:" styleClass="label" for="categorias_f"/>
-
-                <p:selectManyCheckbox id="categorias_f" class="form-control" value="#{inicioBean.categoriasSelect}">
-                    <f:selectItems value="#{productoBean.categorias}" var="categoria"/>
-
-                    <p:growl for="filtro-ms" showDetail="true"/></p:selectManyCheckbox>
-
-            </h:panelGrid>
-            <p:commandButton value="Filtrar" update="@form" styleClass="btn btn-primary mb-4 btn-lg pl-2 pr-2" action="#{inicioBean.actualizarLista}"/>
-
-            <p:dataView value="#{inicioBean.productos}" var="producto" gridIcon="pi pi-th-large" listIcon="pi pi-bars" >
+            <p:dataView value="#{subastaBean.subastas}" var="subasta" gridIcon="pi pi-th-large" listIcon="pi pi-bars" >
                 <p:dataViewGridItem>
                     <div class="card" >
-                        <img src="/uploads/#{producto.imagenDestacada}" class="card-img-top" alt="..." />
+                        <img src="/uploads/#{subasta.productoEnSubasta.imagenDestacada}" class="card-img-top" alt="..." />
 
                         <div class="card-body">
-                            <h5 class="card-title">#{producto.nombre}</h5>
-                            <p class="card-text">#{producto.precio}</p>
+                            <h5 class="card-title">#{subasta.productoEnSubasta.nombre}</h5>
+                            <p class="card-text">#{subasta.productoEnSubasta.precio}</p>
                             <hr />
-                            <p:commandButton value="Ver detalle" styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" action="#{inicioBean.irADetalle(producto.codigo)}"/>
+                            <p:commandButton value="Ver detalle" styleClass="ui-button-raised" icon="pi pi-dollar" iconPos="right" action="#{subastaBean.irADetalle(subasta.codigo)}"/>
                         </div>
                     </div>
                 </p:dataViewGridItem>
                 <p:dataViewListItem>
                     <div class="row d-flex item-pro" >
                         <div class="col-lg-2 col-md-1" style="text-align: center" >
-                            <p:graphicImage url="/uploads/#{producto.imagenDestacada}" styleClass="imagen-producto" />
+                            <p:graphicImage url="/uploads/#{subasta.productoEnSubasta.imagenDestacada}" styleClass="imagen-producto" />
 
                         </div>
                         <div class="col-lg-8 col-md-1 align-self-center" >
                             <p:outputPanel>
                                 <h:panelGrid columns="2" cellpadding="5">
                                     <h:outputText value="Nombre:" />
-                                    <h:outputText value="#{producto.nombre}" style="font-weight:bold" />
+                                    <h:outputText value="#{subasta.productoEnSubasta.nombre}" style="font-weight:bold" />
                                     <h:outputText value="Precio:" />
-                                    <h:outputText value="$ #{producto.precio} cop" />
-                                    <h:outputText value="Categorías:" />
-                                    <h:outputText value="#{producto.categorias}" />
+                                    <h:outputText value="$ #{subasta.productoEnSubasta.precio} cop" />
+                                    <h:outputText value="Valor mas alto:" />
+                                    <h:outputText value="#{subasta.productoEnSubasta.categorias}" />
+                                    <h:outputText value="Fecha Limite:" />
+                                    <h:outputText value="#{subasta.fechaLimite}" />
                                 </h:panelGrid>
                             </p:outputPanel>
                         </div>
+
+
+
                         <div class="col-lg-2 col-md-1 align-self-center" >
-                            <p:commandButton value="Ver detalle" styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" action="#{inicioBean.irADetalle(producto.codigo)}" />
+
+                            <p:commandButton value="Ver" styleClass="btn btn-danger ui-button-raised text-dark" icon="pi pi-dollar" iconPos="right" action="#{subastaBean.irADetalle(subasta.codigo)}"/>
 
                         </div>
                     </div>
                 </p:dataViewListItem>
             </p:dataView>
         </h:form>
+
     </ui:define>
 
 </ui:composition>

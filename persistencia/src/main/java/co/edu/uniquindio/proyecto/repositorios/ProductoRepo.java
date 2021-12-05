@@ -16,6 +16,16 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
 
     List<Producto> findAllByNombreContains(String nombre);
 
+    @Query("update Producto p set p.unidades = :u where p.codigo = :codigo")
+    void actualizarUnidades(int u, String codigo);
+
+
+
+    @Query("select p from Producto p where :user member of p.usuariosPotenciales")
+    List<Producto> listarFavoritos(Usuario user);
+
+    @Query("select p from Producto p where p.valor_en_puntos>0 and current_timestamp < p.fechaLimite and p.unidades > 0 ")
+    List<Producto> listarProductosPuntos();
 
     @Query("select p from Producto p where p.nombre like concat('%', :nombre, '%') and :categoria member of p.categorias and current_timestamp < p.fechaLimite and p.unidades > 0 ")
     List<Producto> buscarProductoCategoria(Categoria categoria, String nombre);
@@ -38,6 +48,8 @@ public interface ProductoRepo extends JpaRepository<Producto, String> {
     @Query("select p.vendedor from Producto p where p.vendedor.codigo = :codigo")
     Optional<Usuario> obtenerVendedorPorCodigo(int codigo);
 
+    @Query("select p.usuariosPotenciales from Producto p where p = :p")
+    List<Usuario> listaUserFav(Producto p);
 
     @Query("select p.vendedor from Producto p where :p = p  and p.vendedor.codigo = :codigo")
     Optional<Usuario> obtenerVendedorPorProducto(Producto p, int codigo);

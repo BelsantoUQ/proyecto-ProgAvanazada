@@ -18,12 +18,15 @@ public interface IProductoService {
 
     List<Producto> listar();
 
+    List<Producto> listarProductosPuntos();
+
     List<Producto> listarPorVendedor(String username) throws Exception;
 
     Optional<Producto> obtenerProducto(String codigo) throws Exception;
 
     Optional<Usuario> obtenerVendedor(int codigo) throws Exception;
 
+    List<Producto> obtenerFavoritos(Usuario user) throws Exception;
 
     Optional<Usuario> obtenerVendedorProducto(Producto p, int codigoVendedor) throws Exception;
 

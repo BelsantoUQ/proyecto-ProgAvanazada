@@ -11,29 +11,14 @@
 <ui:composition template="WEB-INF/template.xhtml">
 
 
-    <ui:define name="title">Resultados de la busqueda</ui:define>
+    <ui:define name="title">Puntos - Productos</ui:define>
 
     <ui:define name="content">
 
-        <h1>Lista de productos</h1>
+        <h1>Lista de productos disponibles con puntos</h1>
         <h:form>
 
-            <h:panelGrid columns="20">
-
-                <p:outputLabel value="Categorias:" styleClass="label" for="categorias_f"/>
-
-                <p:selectManyCheckbox id="categorias_f" class="form-control" value="#{busquedaBean.categoriasSelect}">
-                    <f:selectItems value="#{busquedaBean.categorias}" var="categoria"/>
-
-                    <p:growl for="filtro-ms" showDetail="true"/>
-                </p:selectManyCheckbox>
-
-            </h:panelGrid>
-
-
-            <p:commandButton value="Filtrar" update="@form" styleClass="btn btn-primary mb-4 btn-lg pl-2 pr-2" action="#{busquedaBean.actualizarLista()}"/>
-
-            <p:dataView value="#{busquedaBean.productos}" var="producto" gridIcon="pi pi-th-large" listIcon="pi pi-bars" >
+            <p:dataView value="#{productoPuntosBean.productos}" var="producto" gridIcon="pi pi-th-large" listIcon="pi pi-bars" >
                 <p:dataViewGridItem>
                     <div class="card" >
                         <img src="/uploads/#{producto.imagenDestacada}" class="card-img-top" alt="..." />
@@ -42,7 +27,6 @@
                             <h5 class="card-title">#{producto.nombre}</h5>
                             <p class="card-text">#{producto.precio}</p>
                             <hr />
-                            <p:commandButton value="Ver detalle" styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" action="#{inicioBean.irADetalle(producto.codigo)}"/>
                         </div>
                     </div>
                 </p:dataViewGridItem>
@@ -58,15 +42,11 @@
                                     <h:outputText value="Nombre:" />
                                     <h:outputText value="#{producto.nombre}" style="font-weight:bold" />
                                     <h:outputText value="Precio:" />
-                                    <h:outputText value="$ #{producto.precio} cop" />
+                                    <h:outputText value="#{producto.valor_en_puntos} Puntos" />
                                     <h:outputText value="Categorías:" />
                                     <h:outputText value="#{producto.categorias}" />
                                 </h:panelGrid>
                             </p:outputPanel>
-                        </div>
-                        <div class="col-lg-2 col-md-1 align-self-center" >
-                            <p:commandButton value="Ver detalle" styleClass="ui-button-raised" icon="pi pi-arrow-right" iconPos="right" action="#{inicioBean.irADetalle(producto.codigo)}" />
-
                         </div>
                     </div>
                 </p:dataViewListItem>

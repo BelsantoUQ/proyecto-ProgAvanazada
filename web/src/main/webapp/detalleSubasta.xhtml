@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<ui:composition template="WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{detalleSubastaBean.producto.nombre}</ui:define>
+
+    <ui:define name="content">
+        <div class="row" >
+            <div class="col-lg-7 col-md-1">
+                <div class="box box-stretched">
+                    <p:galleria rendered="#{detalleSubastaBean.producto.imagenRuta.size() > 0}" value="#{detalleSubastaBean.producto.imagenRuta}" var="imagen" panelHeight="425">
+                        <p:graphicImage url="/uploads/#{imagen}" alt="Image Description for #{imagen}" title="#{imagen}" styleClass="rounded shadow" />
+                    </p:galleria>
+                    <p:graphicImage rendered="#{detalleSubastaBean.producto.imagenRuta.size() == 0}" url="/uploads/#{detalleSubastaBean.producto.imagenDestacada}" alt="Image Description for #{detalleProductoBean.producto.imagenDestacada}" title="#{detalleProductoBean.producto.imagenDestacada}" styleClass="imagen-default rounded" />
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-1">
+                <div class="p-grid">
+                    <div class="box">
+                        <h1 class="mt-4">#{detalleSubastaBean.producto.nombrePublicacion}</h1>
+
+                        <h1 class="mt-4">$#{detalleSubastaBean.mejorOferta}</h1>
+
+                        <br/>
+
+                        <h1 class="mt-4">$#{detalleSubastaBean.userMejorOferta.username}</h1>
+
+                        <h:form class="mt-4" rendered="#{seguridadBean.autenticado}">
+                            <p:commandButton value="Ofertar" icon="#{detalleSubastaBean.getIconBoton()}" onclick="PF('ofer').show()" disabled="#{detalleSubastaBean.vendedorAutenticado}" update="@form" />
+                            <p:growl for="add-cart" showDetail="true" />
+                        </h:form>
+
+                    </div>
+                    <div class="box">
+                        <h3><h:outputText value="#{detalleSubastaBean.producto.ciudadProducto.nombre}"/></h3>
+                    </div>
+
+
+
+                    <p:dataList emptyMessage="No hay cayegorías para este producto" styleClass="lista-carac" value="#{detalleProductoBean.producto.categorias}" var="categoria">
+                        <f:facet name="header">Categoría</f:facet>
+                        <p>#{categoria}</p>
+                    </p:dataList>
+                </div>
+            </div>
+        </div>
+
+        <p:panel header="Descripción" styleClass="mt-3">
+            <h:outputText value="#{detalleProductoBean.producto.descripcion}" escape="false"/>
+        </p:panel>
+
+        <p:dialog header="Realizar Oferta" showEffect="fade" widgetVar="ofer" modal="true" rendered="#{seguridadBean.autenticado}" >
+            <h:form >
+                <h:panelGrid columns="3" cellpadding="5">
+                    <p:outputLabel for="oferta_user" value="Oferta:" />
+                    <p:inputText id="oferta_user" value="#{detalleSubastaBean.mejorOferta}" required="true" type="number"/>
+                    <p:message for="oferta_user" />
+
+                </h:panelGrid>
+                <p:commandButton value="Ofertar..." action="#{detalleSubastaBean.ofertar}"
+                                 styleClass="mt-4" update="@form" icon="pi pi-dollar" iconPos="left" />
+                <p:growl for="oferta-user" showDetail="true" />
+            </h:form>
+        </p:dialog>
+
+
+
+    </ui:define>
+</ui:composition>
+</html>

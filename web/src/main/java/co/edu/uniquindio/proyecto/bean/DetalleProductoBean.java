@@ -93,7 +93,7 @@ public class DetalleProductoBean implements Serializable {
         if (vendedorAutenticado){
             return "pi pi-dollar";
         }
-        return "pi pi-heart-fill";
+        return "pi pi-thumbs-up";
     }
 
     public void crearComentario(){
@@ -165,18 +165,48 @@ public class DetalleProductoBean implements Serializable {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "No hay Stock de este producto segun nuestra BD");
             FacesContext.getCurrentInstance().addMessage("add-cart", fm);
         }else{
-
             try {
-                producto.getUsuariosPotenciales().add(usuarioSesion);
-                productoServicio.actualizar(producto);
+                Usuario user = usuarioSesion;
+                List<Producto> listaFav = usuarioSesion.getProductosFavoritos();
 
+                if (user.getProductosFavoritos()!=null && !user.getProductosFavoritos().isEmpty()){
+                    if (!user.getProductosFavoritos().contains(producto)) {
+                        listaFav.add(producto);
 
+                        user.setProductosFavoritos(listaFav);
+
+                        usuarioServicio.actualizar(user);
+
+                        FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "ENHORABUENA!", "Se ha añadido a favoritos");
+                        FacesContext.getCurrentInstance().addMessage("add-cart", fm);
+
+                        return "";
+                    }
+                }else{
+                    listaFav.add(producto);
+
+                    user.setProductosFavoritos(listaFav);
+
+                    usuarioServicio.actualizar(user);
+
+                    FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "ENHORABUENA!", "Se ha añadido a favoritos");
+                    FacesContext.getCurrentInstance().addMessage("add-cart", fm);
+
+                    return "";
+                }
+
+                listaFav.remove(producto);
+                user.setProductosFavoritos(listaFav);
+                usuarioServicio.actualizar(user);
+
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Se quito de favs, es posible que ya no este en tu lista");
+                FacesContext.getCurrentInstance().addMessage("add-cart", fm);
 
             } catch (Exception e) {
-                e.printStackTrace();
+
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+                FacesContext.getCurrentInstance().addMessage("add-cart", fm);
             }
-
-
         }
         return "";
     }

@@ -22,5 +22,4 @@ public interface SubastaRepo extends JpaRepository<Subasta, Integer>{
     List<Subasta> listarSubastasVendedor(Usuario user);
 
 
-
 }
