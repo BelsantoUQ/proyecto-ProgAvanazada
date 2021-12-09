@@ -69,7 +69,7 @@
                 <div class="form-group row">
                 <p:outputLabel value="Categorias:" class="col-sm-2 col-form-label" for="categorias_p"/>
                 <div class="col-sm-10">
-                <p:selectManyCheckbox id="categorias_p" class="form-control" value="#{productoBean.producto.categorias}" required="true">
+                <p:selectManyCheckbox id="categorias_p" class="form-control" value="#{productoBean.categoriasSelect}" required="true">
                     <f:selectItems value="#{productoBean.categorias}" var="categoria"/>
                 </p:selectManyCheckbox>
                 </div>
@@ -85,6 +85,7 @@
                     <f:selectItems value="#{productoBean.ciudades}" var="ciudad" itemLabel="#{ciudad.nombre}"/>
                 </p:selectOneMenu>
                 </div>
+                <p:message for="ciudad_p"/>
                 </div>
 
                 <div class="form-group row">
@@ -114,12 +115,13 @@
                 <div class="col-sm-10">
                 <p:fileUpload id="imagen_p" class="form-control" listener="#{productoBean.subirImagenes}" mode="advanced" multiple="true" sizeLimit="1000000" fileLimit="5" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" required="true"/>
                 </div>
-                </div>
 
+                    <p:message for="imagen_p"/>
+                </div>
             </h:panelGrid>
 
             <p:growl showDetail="true" for="msj-bean"/>
-            <p:commandButton value="Crear producto" action="#{productoBean.crearProducto}" update="@form" icon="pi pi-plus"/>
+            <p:commandButton value="Crear producto" action="#{productoBean.crearProducto}"  icon="pi pi-plus"/>
 
         </h:form>
     </p:panel>

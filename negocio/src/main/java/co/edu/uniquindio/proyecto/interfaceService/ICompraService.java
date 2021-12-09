@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.entidades.Compra;
 import co.edu.uniquindio.proyecto.entidades.DetalleCompra;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ICompraService {
@@ -20,5 +21,8 @@ public interface ICompraService {
     List<DetalleCompra> obtenerDetalleCompra(Compra c) throws Exception;
 
     List<Compra> listar();
+
+
+    List<Compra> listarPorMes(LocalDateTime f1, LocalDateTime f2);
 
 }

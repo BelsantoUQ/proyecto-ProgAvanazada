@@ -40,6 +40,9 @@ public class ProductoBean implements Serializable {
     private ArrayList<String> imagenes;
 
     @Getter @Setter
+    private ArrayList<Categoria> categoriasSelect;
+
+    @Getter @Setter
     private List<Categoria> categorias;
 
     @Getter @Setter
@@ -47,7 +50,6 @@ public class ProductoBean implements Serializable {
 
     @Autowired
     private ICiudadService ciudadServicio;
-
 
     @Value("${upload.url}")
     private String urlUpload;
@@ -59,38 +61,43 @@ public class ProductoBean implements Serializable {
     public void inicializat(){
         this.producto = new Producto();
         this.imagenes = new ArrayList<>();
+        this.categoriasSelect = new ArrayList<>();
         this.ciudades = ciudadServicio.listar();
         this.categorias = productoService.listarCategorias();
     }
 
     public String crearProducto(){
-        try {
-            if (!imagenes.isEmpty() && usuarioSesion!=null){
+        if (!imagenes.isEmpty() && usuarioSesion!=null){
+            try {
 
-            Usuario vendedor = usuarioSesion;
-            String cat = generarCodigoP();
-            producto.setCodigo(vendedor.getCodigo()+cat+productoService.listar().size());
-            producto.setVendedor(vendedor);
-            producto.setImagenRuta(imagenes);
-            producto.setFechaLimite(LocalDate.now().plusMonths(1));
-            productoService.guardar(producto);
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Alerta", "Producto creado satisfactoriamente");
-            FacesContext.getCurrentInstance().addMessage("msj-bean",msg);
-            return "detalleProducto?faces-redirect=true&amp;producto="+producto.getCodigo();
-            }else{
-                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Error no se han subido alguna imagen del producto");
+                Usuario vendedor = usuarioSesion;
+                String cat = generarCodigoP();
+                producto.setCodigo(vendedor.getCodigo()+cat+productoService.listar().size());
+                producto.setVendedor(vendedor);
+                producto.setFechaLimite(LocalDate.now().plusMonths(1));
+                productoService.guardar(producto);
+                productoService.actualizarCategorias(categoriasSelect, producto.getCodigo());
+                productoService.actualizarImagen(imagenes, producto.getCodigo());
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", "Agregado con exito");
                 FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                return "detalleProducto?faces-redirect=true&amp;producto="+producto.getCodigo();
+            }catch (Exception e){
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+                FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
+                return "";
             }
 
-        }catch (Exception e){
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alerta", e.getMessage());
+        }else{
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Error no se han subido alguna imagen del producto");
             FacesContext.getCurrentInstance().addMessage("msj-bean", fm);
-        }return "";
+            return "";
+        }
     }
 
     private String generarCodigoP() {
-        String cod = "";
-        for (int i = 0; i < producto.getCategorias().size(); i++) {
+        String city = producto.getCiudadProducto().getNombre();
+        String cod = ""+city.charAt(0);
+        for (int i = 0; i < this.categoriasSelect.size(); i++) {
             cod+=""+producto.getCategorias().get(i).toString().toUpperCase(Locale.ROOT).charAt(0)
                     +producto.getCategorias().get(i).toString().toUpperCase(Locale.ROOT).charAt(1);
         }

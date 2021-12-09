@@ -6,6 +6,7 @@ import co.edu.uniquindio.proyecto.interfaceService.IProductoService;
 import co.edu.uniquindio.proyecto.repositorios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ProductoService implements IProductoService {
 
     @Autowired
@@ -77,6 +79,32 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
+    public void actualizarImagen(List<String> i, String codigo) throws Exception {
+        if (data.findById(codigo).isEmpty()){
+            throw new Exception("Producto no encontrado");
+
+        }else{
+            for (int j = 0; j < i.size(); j++) {
+
+                data.agregarImagenes(codigo,i.get(j));
+            }
+        }
+    }
+
+    @Override
+    public void actualizarCategorias(List<Categoria> categorias, String codigo) throws Exception {
+        if (data.findById(codigo).isEmpty()){
+            throw new Exception("Producto no encontrado");
+
+        }else{
+            for (int j = 0; j < categorias.size(); j++) {
+
+                data.agregarCategorias(codigo, categorias.get(j).ordinal());
+            }
+        }
+    }
+
+    @Override
     public List<Producto> listarProductosPuntos() {
         return data.listarProductosPuntos();
     }
@@ -124,6 +152,17 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
+    public List<Producto> obtenerFavoritosPorId(int codigoUser) throws Exception {
+        Optional<Usuario> user = usuarioRepo.findById(codigoUser);
+        if (!user.isEmpty()){
+
+            return data.listarFavoritos(user.get());
+        }else throw new Exception("No se encontro el usuario");
+
+
+    }
+
+    @Override
     public Optional<Usuario> obtenerVendedorProducto(Producto p, int codigoVendedor) throws Exception {
         Optional<Usuario>vendedor = data.obtenerVendedorPorProducto(p,codigoVendedor);
         if (vendedor.isEmpty()){
@@ -147,6 +186,23 @@ public class ProductoService implements IProductoService {
         if (!ciudadRepo.findById(ciudad.getCodigo()).isEmpty()) {
             return data.buscarProductoCiudad(ciudad, nombre);
         }else throw new Exception("No se encontró la ciudad");
+    }
+
+    @Override
+    public List<Producto> buscarPorCategoria(Categoria categoria) {
+        return data.buscarPorCategoria(categoria);
+    }
+
+    @Override
+    public List<Producto> buscarPorCiudad(Ciudad ciudad) throws Exception {
+        if (!ciudadRepo.findById(ciudad.getCodigo()).isEmpty()) {
+            return data.buscarPorCiudad(ciudad);
+        }else throw new Exception("No se encontró la ciudad");
+    }
+
+    @Override
+    public List<Producto> buscarPorPrecio(float i, float f) {
+        return buscarPorPrecio(i,f);
     }
 
     @Override

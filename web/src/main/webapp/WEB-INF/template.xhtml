@@ -42,12 +42,12 @@
                     </div>
                     <div class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 
-                        <h:form>
+                        <h:form rendered="#{!seguridadBean.autenticadoAdmin}">
                             <p:commandButton icon="#{seguridadBean.iconoRegistrar}" value="#{seguridadBean.contenidoBotonRegistro}" styleClass="btn btn-outline-success text-dark me-2 mt-2" action="#{seguridadBean.getLinkBotonRegistrar}" />
                         </h:form>
-
+                        <h:form rendered="#{!seguridadBean.autenticadoAdmin}">
                         <p:commandButton icon="#{seguridadBean.iconoLogin}" value="#{seguridadBean.contenidoBotonLogin}" styleClass="btn btn-outline-light text-dark mt-2 me-2" onclick="PF('login').show()" disabled="#{seguridadBean.autenticado}"/>
-
+                        </h:form>
                     </div>
                     <div class="dropdown text-end">
                         <h:form  rendered="#{seguridadBean.autenticado}">
@@ -65,6 +65,19 @@
                             <li><hr class="dropdown-divider"/></li>
                             <li><h:commandButton value="Log-out" styleClass="dropdown-item" action="#{seguridadBean.cerrarSesion}"/></li>
                         </ul>
+                        </h:form>
+                        <h:form  rendered="#{seguridadBean.autenticadoAdmin}">
+
+                            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownAdmin1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="/uploads/default3.png" alt="mdo" width="32" height="32" class="rounded-circle"/>
+                            </a>
+
+                            <ul class="dropdown-menu text-small" aria-labelledby="dropdownAdmin1" style="">
+                                <li><a class="dropdown-item" href="#">Gestionar Usuarios</a></li>
+                                <li><a class="dropdown-item" href="/admin/indexAdmin.xhtml">Reportes</a></li>
+                                <li><hr class="dropdown-divider"/></li>
+                                <li><h:commandButton value="Log-out" styleClass="dropdown-item" action="#{seguridadBean.cerrarSesion}"/></li>
+                            </ul>
                         </h:form>
                     </div>
                 </div>

@@ -8,6 +8,7 @@ import co.edu.uniquindio.proyecto.repositorios.CompraRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,5 +56,10 @@ public class CompraService implements ICompraService {
     @Override
     public List<Compra> listar() {
         return data.findAll();
+    }
+
+    @Override
+    public List<Compra> listarPorMes(LocalDateTime f1, LocalDateTime f2) {
+        return data.obtenerComprarMes(f1, f2);
     }
 }

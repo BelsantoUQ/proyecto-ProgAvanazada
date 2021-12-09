@@ -3,18 +3,25 @@ package co.edu.uniquindio.proyecto.servicios;
 import co.edu.uniquindio.proyecto.interfaceService.IUsuarioServicio;
 import co.edu.uniquindio.proyecto.entidades.Producto;
 import co.edu.uniquindio.proyecto.entidades.Usuario;
+import co.edu.uniquindio.proyecto.repositorios.ProductoRepo;
 import co.edu.uniquindio.proyecto.repositorios.UsuarioRepo;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UsuarioService implements IUsuarioServicio {
 
     @Autowired
     private UsuarioRepo data;
+
+    @Autowired
+    private ProductoRepo productoRepo;
 
     @Autowired
     private SendMailService mailSenderService;
@@ -30,6 +37,8 @@ public class UsuarioService implements IUsuarioServicio {
             case 3:
             throw new Exception("El nombre de usuario elegido ya existe");
         }
+        StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+        u.setPassword(passwordEncryptor.encryptPassword(u.getPassword()));
         return  data.save(u);
 
     }
@@ -43,6 +52,21 @@ public class UsuarioService implements IUsuarioServicio {
         }
 
         return  data.save(u);
+
+    }
+
+    @Override
+    public void eliminarFavorito(Usuario u, Producto p) throws Exception {
+
+        Optional<Usuario> buscado= data.findById(u.getCodigo());
+        Optional<Producto> buscado2= productoRepo.findById(p.getCodigo());
+        if(buscado.isEmpty() && buscado2.isEmpty()){
+            throw new Exception("El código del usuario ya existe");
+        }else{
+            data.eliminarFavorito(u.getCodigo(), p.getCodigo());
+        }
+
+
 
     }
 
@@ -91,7 +115,13 @@ public class UsuarioService implements IUsuarioServicio {
 
     @Override
     public Optional<Usuario> iniciarSesion(String email, String password) {
-        return data.findByEmailAndPassword(email, password);
+        Optional<Usuario> u = data.findByEmail(email);
+        if(!u.isEmpty()) {
+            StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
+            if (passwordEncryptor.checkPassword(password, u.get().getPassword())) {
+                return u;
+            }
+        }return Optional.empty();
     }
 
     @Override

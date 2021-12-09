@@ -43,6 +43,9 @@ public class ModificarProductoBean implements Serializable {
     private ArrayList<String> imagenes;
 
     @Getter @Setter
+    private ArrayList<Categoria> categoriasSelect;
+
+    @Getter @Setter
     private List<Ciudad> ciudades;
 
     @Autowired

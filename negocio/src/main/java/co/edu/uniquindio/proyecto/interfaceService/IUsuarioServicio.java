@@ -19,11 +19,13 @@ public interface IUsuarioServicio {
 
     List<Usuario> listar();
 
+    void eliminarFavorito(Usuario u, Producto p) throws Exception ;
+
     List<Producto> listarProductosFavoritos(String email) throws Exception;
 
-    Optional<Usuario> buscarPorEmail(String email);
-
     Optional<Usuario> obtenerUsuario(int codigo) throws Exception;
+
+    Optional<Usuario> buscarPorEmail(String email);
 
     Optional<Usuario> iniciarSesion(String email, String contraseña);
 

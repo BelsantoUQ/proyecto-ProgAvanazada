@@ -18,6 +18,10 @@ public interface IProductoService {
 
     List<Producto> listar();
 
+    void actualizarImagen(List<String> i, String codigo) throws Exception;
+
+    void actualizarCategorias(List<Categoria> categorias, String codigo) throws Exception;
+
     List<Producto> listarProductosPuntos();
 
     List<Producto> listarPorVendedor(String username) throws Exception;
@@ -28,6 +32,8 @@ public interface IProductoService {
 
     List<Producto> obtenerFavoritos(Usuario user) throws Exception;
 
+    List<Producto> obtenerFavoritosPorId(int user) throws Exception;
+
     Optional<Usuario> obtenerVendedorProducto(Producto p, int codigoVendedor) throws Exception;
 
     List<Producto> listarValidosPorCategoria(Categoria categoria);
@@ -35,6 +41,12 @@ public interface IProductoService {
     List<Producto> buscarIncluirCategoria(String nombre, Categoria categoria);
 
     List<Producto> buscarIncluirCiudad(String nombre, Ciudad ciudad) throws Exception;
+
+    List<Producto> buscarPorCategoria(Categoria categoria);
+
+    List<Producto> buscarPorCiudad(Ciudad ciudad) throws Exception;
+
+    List<Producto> buscarPorPrecio(float i, float f);
 
     List<Producto> buscarIncluirCalificacion(String nombre, int calif) throws Exception;
 

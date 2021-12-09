@@ -197,10 +197,13 @@ public class DetalleProductoBean implements Serializable {
 
                 listaFav.remove(producto);
                 user.setProductosFavoritos(listaFav);
-                usuarioServicio.actualizar(user);
+                usuarioSesion = user;
+                usuarioServicio.actualizar(usuarioSesion);
+                usuarioServicio.eliminarFavorito(user, producto);
 
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_WARN, "Alerta", "Se quito de favs, es posible que ya no este en tu lista");
                 FacesContext.getCurrentInstance().addMessage("add-cart", fm);
+                return "";
 
             } catch (Exception e) {
 

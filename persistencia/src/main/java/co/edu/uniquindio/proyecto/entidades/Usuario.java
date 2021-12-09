@@ -1,8 +1,11 @@
 package co.edu.uniquindio.proyecto.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,7 +16,6 @@ import java.util.Map;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @ToString(callSuper = true)
 public class Usuario extends Persona implements Serializable {
 
@@ -28,7 +30,7 @@ public class Usuario extends Persona implements Serializable {
     private String rutaFoto;
     
     @ElementCollection()
-    private List<String> num_telefono = new ArrayList<>();
+    private List<String> num_telefono;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -42,31 +44,54 @@ public class Usuario extends Persona implements Serializable {
         this.puntos = puntos;
     }
 
-
     @ManyToMany(fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
     @ToString.Exclude
+    @Fetch(FetchMode.JOIN)
+    @JsonIgnore
     private List<Producto> productosFavoritos;
 
-    @OneToMany(mappedBy = "userComent", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "userComent")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
+    @JsonIgnore
     private List<Comentario> comentariosDelUser;
 
-    @OneToMany(mappedBy = "usuarioSubasta",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuarioSubasta")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
+    @JsonIgnore
     private List<Subasta_Usuario> subastasDeUsuario;
 
-    @OneToMany(mappedBy = "comprador",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "comprador")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
+    @JsonIgnore
     private List<Compra> comprasUsuario;
 
-    @OneToMany(mappedBy = "vendedor",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "vendedor")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
+    @JsonIgnore
     private List<Producto> productosVenta;
 
-    @OneToMany(mappedBy = "chatUsuario",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "chatUsuario")
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ToString.Exclude
+    @JsonIgnore
     private List<Chat> chatsDelUsuario;
+
+    public Usuario(){
+
+        this.num_telefono = new ArrayList<>();
+        this.productosFavoritos = new ArrayList<>();
+        this.chatsDelUsuario = new ArrayList<>();
+        this.productosVenta = new ArrayList<>();
+        this.comprasUsuario = new ArrayList<>();
+        this.subastasDeUsuario = new ArrayList<>();
+        this.comentariosDelUser = new ArrayList<>();
+        this.productosFavoritos = new ArrayList<>();
+
+    }
 
     public String getImagenUser(){
         if(this.rutaFoto !=null && !this.rutaFoto.equals("")){

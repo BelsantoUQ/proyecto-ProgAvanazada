@@ -5,6 +5,7 @@ import co.edu.uniquindio.proyecto.entidades.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,10 @@ public interface UsuarioRepo extends JpaRepository<Usuario,Integer> {
     Optional<Usuario> findByUsername(String username);
 
     Optional<Usuario> findByEmailAndPassword(String username, String password);
+
+    @Modifying
+    @Query(value="DELETE FROM `usuario_productos_favoritos` WHERE usuarios_potenciales_codigo = :u AND productos_favoritos_codigo = :p", nativeQuery = true)
+    void eliminarFavorito(int u, String p);
 
     Page<Usuario> findAll(Pageable paginador);
 
